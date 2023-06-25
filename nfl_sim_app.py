@@ -1,0 +1,290 @@
+import streamlit as st
+from numpy.random import default_rng
+import pandas as pd
+from sim_23season import simulate_reg_season, make_pr_custom
+from make_standings import Standings
+from make_charts import make_playoff_charts, make_win_charts, make_div_charts
+from itertools import permutations
+import time
+import base64
+
+st.set_page_config(layout="wide")
+
+st.title('2023 NFL Regular Season Simulator')
+
+pr_default = pd.read_csv("data/pr.csv", index_col="Team").squeeze()
+div_series = pd.read_csv("data/divisions.csv", index_col=0).squeeze()
+teams = div_series.index
+conf_teams = {}
+for conf in ["AFC","NFC"]:
+    conf_teams[conf] = [t for t in teams if div_series[t][:3]==conf]
+rng = default_rng()
+
+div_dict = {}
+
+s = div_series
+for a,b in s.groupby(s):
+    div_dict[a] = list(b.index)
+
+def reps_changed():
+    st.session_state["rc"] = True
+
+def comb_changed():
+    if "pc" in st.session_state:
+        st.session_state["rc"] = True
+
+def prob_to_odds(p):
+    if p < .000001:
+        return "NA"
+    if p > .999999:
+        return "NA"
+    if p > 0.5:
+        x = 100*p/(p-1)
+        return f"{x:.0f}"
+    elif p <= 0.5:
+        x = 100*(1-p)/p
+        return f"+{x:.0f}"
+
+max_reps = 2000
+
+reps = st.sidebar.number_input('Number of simulations to run:',value=200, min_value = 1, max_value = max_reps, help = f'''The maximum allowed value is {max_reps}.''',on_change=reps_changed)
+
+
+info_col0, info_col1 = st.sidebar.columns((3,1))
+
+with st.sidebar:
+
+    st.write("Set your power ratings.")
+
+
+pr = {"mean_score": float(pr_default["mean_score"])}
+
+with st.sidebar:
+    for t in teams:
+        pr[t] = st.slider(
+            f'{t} power rating',
+            -15.0, 15.0, float(pr_default[t]))
+    st.subheader("Extra parameter:")
+    pr["HFA"] = st.slider(
+        'Home field advantage',
+        0.0, 10.0, float(pr_default["HFA"]))
+    pr_complete = make_pr_custom(pr_default)
+
+
+with st.sidebar:
+    series_download = pd.Series(pr, name="PR")
+    series_download.index.name = "Side"
+
+
+df_pr = pd.DataFrame({"Overall": {t:pr_complete[t+"_Off"] + pr_complete[t+"_Def"] for t in teams},
+        "Offensive":{t:pr_complete[t+"_Off"] for t in teams}, "Defensive":{t:pr_complete[t+"_Def"] for t in teams}}
+        )
+
+
+st.markdown('''Based on your power ratings, we use Python to run many simulations of the 2023 NFL regular season, and then estimate answers to questions like:
+* How likely is Dallas to get the no. 1 seed?  To win its division? To make the playoffs?
+* How likely are the Steelers to win exactly 11 games?  To win 11 or more games?
+* How likely are the Patriots to finish 3rd in the AFC East?''')
+
+st.markdown('''In each simulation, a random outcome is generated for all 272 regular season games.  The outcomes are based on the power ratings; you should customize these power ratings on the left.
+(**Warning**.  Even if you set the absolute perfect power ratings, our simulation is too simple to provide true probabilities.  For example, our simulation assumes the power ratings stay constant throughout the season.)
+
+
+Click the button below to run the simulation.''')
+
+button_cols1, button_cols2 = st.columns((1,5))
+
+with button_cols1:
+    sim_button = st.button("Run simulations")
+
+with button_cols2:
+    time_holder = st.empty()
+
+if sim_button or ("rc" in st.session_state):
+    try:
+        del st.session_state["rc"]
+    except:
+        pass
+    st.header("Simulation results")
+    placeholder0 = st.empty()
+    placeholder1 = st.empty()
+    placeholder0.text(f"Running {reps} simulations of the 2023 NFL regular season")
+    bar = placeholder1.progress(0.0)
+    st.write("")
+
+    playoff_dict = {}
+    
+    for conf in ["AFC","NFC"]:
+        playoff_dict[conf] = {i:{t:0 for t in sorted(conf_teams[conf])} for i in range(1,8)}
+
+    win_dict = {t:{i:0 for i in range(18)} for t in teams}
+
+    #rank_dict = {div:{} for div in div_dict.keys()}
+    rank_dict1 = {t:{} for t in teams}
+
+    #for div in rank_dict.keys():
+    #    for team_sort in permutations(div_dict[div]):
+    #        rank_dict[div][team_sort] = 0
+
+    for t in teams:
+        for i in range(1,5):
+            rank_dict1[t][i] = 0
+
+    start = time.time()
+
+    for i in range(reps):
+        df = simulate_reg_season(pr)
+        stand = Standings(df)
+
+        p = stand.playoffs
+        for conf in ["AFC","NFC"]:
+            for j,t in enumerate(p[conf]):
+                playoff_dict[conf][j+1][t] += 1
+        for t in teams:
+            team_outcome = stand.standings.loc[t]
+            win_dict[t][team_outcome["Wins"]] += 1
+            rank_dict1[t][team_outcome["Division_rank"]] += 1
+        
+        #for d in rank_dict.keys():
+        #    rank_dict[d][tuple(stand.div_ranks[d])] += 1
+        
+        bar.progress((i+1)/reps)
+
+    #for d in rank_dict.keys():
+    #    rank_dict[d] = {i:j/reps for i,j in rank_dict[d].items()}
+
+    #st.session_state["rd"] = rank_dict
+
+    end = time.time()
+    
+    time_holder.write(f"{reps} simulations of the 2023 NFL regular season took {end - start:.1f} seconds.")
+
+
+    playoff_charts = make_playoff_charts(playoff_dict)
+
+    win_charts = make_win_charts(win_dict)
+
+    div_charts = make_div_charts(rank_dict1)
+
+    st.session_state['pc'] = playoff_charts
+    st.session_state['wc'] = win_charts
+    st.session_state['dc'] = div_charts
+
+
+def make_ranking(df,col):
+    return (-df[col]).rank()
+
+def make_sample():
+    st.header("Sample images:")
+    if "pc" not in st.session_state:
+        st.write('(To replace the sample images with real images, press the "Run simulations" button above.)')
+    c_image, c_text = st.columns(2)
+    with c_image:
+        st.image("images/pc_holder.png")
+    with c_text:
+        st.subheader("How to interpret the playoff seeding image.")
+        st.markdown('''The NFC playoff seeding image shows the probability of different teams getting different playoff seeds, according to our simulations.\n\nFor example:
+* Philadelphia has about an 80% chance of making the playoffs, while Arizona has less than a 10% chance.  This corresponds to the total heights of the bars in the chart.
+* Philadelphia is much more likely to get a 1 seed (dark blue bar) than Minnesota (about 20% vs 5%).
+* Philadelphia is also much less likely to get a 4 seed (light blue bar) than a 1 seed (about 8% vs 20%). 
+* For more precise numbers, place your mouse over a bar in one of the real images (not the sample images).
+The displayed text in our sample image shows that, according to our simulations:
+* Dallas has an 11.3% chance of getting a 6 seed;
+* Dallas has a 68.5% chance of making the playoffs.    
+* The fair odds corresponding to these probabilities are +785 and -217, respectively.''')
+    c_image, c_text = st.columns(2)
+    with c_image:
+        st.image("images/wc_holder.png")
+    with c_text:
+        st.subheader("How to interpret the win total image.")
+        st.markdown('''The NFC win total image shows the probability, according to our simulations, of different teams having a specific number of wins at the end of the 2023 regular season.
+The thin black line represents the median win total for each team.\n\nFor example:
+* The thin black vertical line passes through the median win total for each team.  The median win total for San Francisco is 10, the median win total for Chicago is 8, while the median win total for Arizona is 6.
+* It looks like Washington has about a 40% chance of winning 8 or more games (the region to the left of the red bar).
+* Dallas has a 13.7% chance of winning exactly 11 games, and a 31.5% chance of winning at least 11 games.
+
+**Warning**.  These numbers may look precise because of the decimal places, but they're coming from imperfect simulations.''')
+    c_image, c_text = st.columns(2)
+    with c_image:
+        st.image("images/dc_holder.png")
+    with c_text:
+        st.subheader("How to interpret the division ranks image.")
+        st.markdown('''The division ranks image shows the probability of different teams finishing in specific ranks in their divisions.
+\n\nFor example, according to our simulations:
+* Dallas has a 32.9% chance of coming in second in the NFC East, and Washington has about a 50% chance of finishing 4th in the NFC East.
+* The teams are sorted in terms of how likely they are to win their division.  If all you care about is how likely is the team to win its division, then it's probably more convenient to use the playoff seedings image.''')
+
+if 'pc' in st.session_state:
+    try:
+        placeholder0.write(st.session_state['pc'])
+        placeholder1.write(st.session_state['wc'])
+    except:
+        st.header("Simulation results")
+        st.write(st.session_state['pc'])
+        st.write(st.session_state['wc'])
+else:
+    make_sample()
+
+df_rankings = pd.DataFrame({col:make_ranking(df_pr,col) for col in df_pr.columns})
+    
+radio_dict = {
+    "Division": "Probabilities for different division ranks.",
+    "Rankings": "See the power rankings 1-32 based on the current values.",
+    "Sample": "The sample images and explanations.",
+    "Details": "More details about the process.",
+    "Follow": "Possible follow-ups.",
+    "Contact": "Contact"
+}
+
+info_choice = st.radio(
+    'Options for more information',
+    radio_dict.keys(),key="opt_radio",format_func=lambda k: radio_dict[k])
+
+if info_choice == "Rankings":
+    st.subheader("Power rankings 1-32 based on current values")
+    st.dataframe(df_rankings[["Overall"]].astype(int).sort_values("Overall"),height=1000)
+elif info_choice == "Contact":
+    st.markdown('')
+    st.markdown('''Source code for this app: [NFL2023-Simulation](https://github.com/ChristopherDavisUCI/NFL2023-Simulation)<br>
+Twitter profile: [@CDavis_UCI](https://twitter.com/cdavis_uci)<br>
+Please contact me with any questions or suggestions!''',unsafe_allow_html=True)
+elif info_choice == "Details":
+    st.markdown('''* Warning! I'm not an expert on any of this material (not on Python, not on the NFL, not on random processes, not on simulating sports outcomes).  I'm trying to learn more.  I originally made this app before the 2021 season.
+* In the simulation, for each game, we compute the expected score for both teams using the power ratings.  (See the examples in the left-hand panel.) 
+We then use a normal distribution with the expected score as the mean, and with 10 as the standard deviation.  In the current implementation, only the matchups are relevant, 
+not the week in which the matchup occurs.
+* You can download the source code from [Github](https://github.com/ChristopherDavisUCI/NFL2023-Simulation).
+* This website was made using [Streamlit](https://streamlit.io/).
+* The plots were made using [Altair](https://altair-viz.github.io/). 
+In the plots from your simulation (not the placeholder images), put your mouse over the bars to get more data.
+* The default power ratings were computed based on the season-long lines and totals from [nflverse](https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv) on June 25, 2023.
+* No promises that my code is accurate.  (The hardest/most tedious part was implementing the tie-breaking procedures to determine playoff seedings. 
+I believe all tie-breakers are incorporated except for the tie-breakers involving touchdowns.)
+* Please report any bugs!
+    ''')
+elif info_choice == "Division":
+    if "dc" in st.session_state:
+        st.subheader("Division ranks")
+        st.write(f"Based on {reps:.0f} simulations:")
+        st.write(st.session_state["dc"])
+    else:
+        st.write('No data yet.  Press the "Run simulations" button above.')
+    
+elif info_choice == "Sample":
+    make_sample()
+elif info_choice == "Follow":
+    
+    st.subheader("Follow-up ideas")
+
+    st.markdown('''* Adapt the code so that teams coming off of a bye week have slightly boosted power ratings.
+    * Given an over-under win total for a specific team, estimate what the fair odds should be.  (Warning.  If the over-under win total is 9, for example,
+the fair odds for "over 9" does not correspond directly to the probability of the team winning 10 or more games, because pushes need to be treated differently from losses.)
+* Extend the simulations to include the playoffs.  Create charts showing which teams win the super bowl,
+reach the super bowl, and reach the conference championship games most often.
+* One weakness of our simulation is that a team has the same power rating throughout the entire season.  In fact, the order in which games are played has no impact on our simulation.
+Adapt the code so that the power ratings evolve over the course of the season.
+* I didn't think much about dealing with ties.  I wrote some ad hoc code that gets rid of most ties, 
+with the home team slightly more likely to win in overtime than the road team.  (Without this ad hoc code, there were as many as ten ties per season.)  Come up with a more sophisticated solution.''')
+
+st.markdown('___')
+st.markdown("Disclaimer: This app is for Educational and Entertainment purposes only.  Do not take the resulting values literally.  The app has no connection to any organizations nor to any individuals other than the author.")
