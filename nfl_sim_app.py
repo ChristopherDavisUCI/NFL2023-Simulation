@@ -89,7 +89,7 @@ st.markdown('''In each simulation, a random outcome is generated for all 272 reg
 
 Click the button below to run the simulation.''')
 
-button_cols1, button_cols2 = st.columns(2)
+button_cols1, button_cols2 = st.columns((1,5))
 
 sim_button = button_cols1.button("Run simulations")
 
