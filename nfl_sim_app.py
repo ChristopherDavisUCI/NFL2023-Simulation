@@ -89,7 +89,12 @@ st.markdown('''In each simulation, a random outcome is generated for all 272 reg
 
 Click the button below to run the simulation.''')
 
-sim_button = st.button("Run simulations")
+button_cols1, button_cols2 = st.columns(2)
+
+sim_button = button_cols1.button("Run simulations")
+
+with button_cols2:
+    time_holder = st.empty()
 
 if sim_button or ("rc" in st.session_state):
     try:
@@ -147,6 +152,8 @@ if sim_button or ("rc" in st.session_state):
     #st.session_state["rd"] = rank_dict
 
     end = time.time()
+    
+    time_holder.write(f"{reps} simulations of the 2023 NFL regular season took {end - start:.1f} seconds.")
 
 
     playoff_charts = make_playoff_charts(playoff_dict)
