@@ -6,7 +6,6 @@ from make_standings import Standings
 from make_charts import make_playoff_charts, make_win_charts, make_div_charts
 from itertools import permutations
 import time
-import base64
 
 st.set_page_config(layout="wide")
 
@@ -92,8 +91,7 @@ Click the button below to run the simulation.''')
 
 button_cols1, button_cols2 = st.columns((1,5))
 
-with button_cols1:
-    sim_button = st.button("Run simulations")
+sim_button = button_cols1.button("Run simulations")
 
 with button_cols2:
     time_holder = st.empty()
