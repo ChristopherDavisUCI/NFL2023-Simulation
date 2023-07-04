@@ -1,5 +1,6 @@
 import pandas as pd
 import altair as alt
+alt.data_transformers.disable_max_rows()
 
 df = pd.read_csv("schedules/schedule23.csv")
 div_series = pd.read_csv("data/divisions.csv", index_col=0).squeeze()
@@ -134,7 +135,6 @@ def make_win_charts(win_dict):
 
         win_charts[conf] = c + vline
 
-
     win_totals = alt.hconcat(*win_charts.values()).resolve_scale(
         color='independent'
     ).properties(
@@ -237,3 +237,62 @@ def make_last_charts(last_list):
     )
 
     return output_chart
+
+
+def make_streak_charts(streak_dict):
+    odds_dict2 = {"Proportion":"Odds", "Equal_higher":"Odds_Equal_higher"}
+
+    reps = sum(streak_dict["ARI"].values())
+
+    streak_charts = {}
+    for conf in ["AFC","NFC"]:
+        source = pd.DataFrame([(w,t,streak_dict[t][w]/reps) for t in conf_teams[conf] for w in range(18)],
+                    columns = ["Max win streak", "Team", "Proportion"])
+        
+        for a,b in source.groupby("Team"):
+            source.loc[source["Team"] == a,"Equal_higher"] = 1 - b.Proportion.cumsum()
+        
+        source["Equal_higher"] += source["Proportion"]
+
+        for c in odds_dict2.keys():
+            source[odds_dict2[c]] = source[c].map(prob_to_odds)
+        
+        ordering = sorted(conf_teams[conf],
+            key = lambda t: sum([a*b for a,b in streak_dict[t].items()])/reps, reverse = True)
+
+        ordering_streaks = list(range(18,-1,-1))
+
+        c = alt.Chart(source).mark_bar().encode(
+                y=alt.Y('Team',sort = ordering),
+                x=alt.X('Proportion',scale=alt.Scale(domain=[0,1])),
+                tooltip = [alt.Tooltip("Team"),
+                    alt.Tooltip('Max win streak', format=".0f"),
+                    alt.Tooltip('prob_odds:N',title="Proportion"),
+                    alt.Tooltip('equal_odds:N',title="Equal or higher")],
+                color=alt.Color('Max win streak:N', scale=alt.Scale(scheme='tableau20'),
+                            sort = ordering_streaks),
+                order=alt.Order(
+                    'Max win streak:N',
+                    sort='descending'
+                )
+            ).transform_calculate(
+                prob_odds="format(datum.Proportion, ',.3f')+' (' +datum.Odds+')'",
+                equal_odds="format(datum.Equal_higher, ',.3f')+' (' +datum.Odds_Equal_higher+')'"
+            ).properties(
+                title=f"{conf} longest win streaks",
+                width=300,
+                height=300,
+            )
+
+        overlay = pd.DataFrame({'Proportion': [0.5]})
+        vline = alt.Chart(overlay).mark_rule(color='black', strokeWidth=.6).encode(x='Proportion:Q')
+
+        streak_charts[conf] = c + vline
+
+    streak_concat = alt.hconcat(*streak_charts.values()).resolve_scale(
+        color='independent'
+    ).properties(
+        title=f"Based on {reps} simulations:"
+    )
+
+    return streak_concat

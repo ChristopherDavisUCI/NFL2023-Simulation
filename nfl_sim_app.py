@@ -1,16 +1,19 @@
 import streamlit as st
 from numpy.random import default_rng
 import pandas as pd
+import altair as alt
+alt.data_transformers.disable_max_rows()
 from sim_23season import simulate_reg_season, make_pr_custom
 from make_standings import Standings
 from make_charts import (
                             make_playoff_charts,
                             make_win_charts, 
                             make_div_charts,
-                            make_last_charts
+                            make_last_charts,
+                            make_streak_charts
                         )
 from itertools import permutations
-from last_teams import get_last
+from last_teams import get_last, get_streaks
 import time
 
 st.set_page_config(layout="wide")
@@ -50,7 +53,7 @@ def prob_to_odds(p):
         x = 100*(1-p)/p
         return f"+{x:.0f}"
 
-max_reps = 2000
+max_reps = 5000
 
 reps = st.sidebar.number_input('Number of simulations to run:',value=200, min_value = 1, max_value = max_reps, help = f'''The maximum allowed value is {max_reps}.''',on_change=reps_changed)
 
@@ -121,6 +124,9 @@ if sim_button or ("rc" in st.session_state):
 
     win_dict = {t:{i:0 for i in range(18)} for t in teams}
 
+    # Longest win streak for each team
+    streak_dict = {t:{i:0 for i in range(18)} for t in teams}
+
     #rank_dict = {div:{} for div in div_dict.keys()}
     rank_dict1 = {t:{} for t in teams}
 
@@ -139,6 +145,7 @@ if sim_button or ("rc" in st.session_state):
 
     for i in range(reps):
         df = simulate_reg_season(pr)
+        streaks = get_streaks(df)
         last_list.append(get_last(df))
         stand = Standings(df)
 
@@ -150,6 +157,7 @@ if sim_button or ("rc" in st.session_state):
             team_outcome = stand.standings.loc[t]
             win_dict[t][team_outcome["Wins"]] += 1
             rank_dict1[t][team_outcome["Division_rank"]] += 1
+            streak_dict[t][streaks[t]] += 1
         
         #for d in rank_dict.keys():
         #    rank_dict[d][tuple(stand.div_ranks[d])] += 1
@@ -174,10 +182,13 @@ if sim_button or ("rc" in st.session_state):
 
     last_charts = make_last_charts(last_list)
 
+    streak_charts = make_streak_charts(streak_dict)
+
     st.session_state['pc'] = playoff_charts
     st.session_state['wc'] = win_charts
     st.session_state['dc'] = div_charts
     st.session_state['lc'] = last_charts
+    st.session_state['streak_charts'] = streak_charts
 
 
 def make_ranking(df,col):
@@ -232,6 +243,7 @@ if 'pc' in st.session_state:
         st.write(st.session_state['pc'])
         st.write(st.session_state['wc'])
     st.altair_chart(st.session_state['lc'])
+    st.altair_chart(st.session_state["streak_charts"])
 else:
     make_sample()
 
