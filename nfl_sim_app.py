@@ -3,8 +3,14 @@ from numpy.random import default_rng
 import pandas as pd
 from sim_23season import simulate_reg_season, make_pr_custom
 from make_standings import Standings
-from make_charts import make_playoff_charts, make_win_charts, make_div_charts
+from make_charts import (
+                            make_playoff_charts,
+                            make_win_charts, 
+                            make_div_charts,
+                            make_last_charts
+                        )
 from itertools import permutations
+from last_teams import get_last
 import time
 
 st.set_page_config(layout="wide")
@@ -118,6 +124,9 @@ if sim_button or ("rc" in st.session_state):
     #rank_dict = {div:{} for div in div_dict.keys()}
     rank_dict1 = {t:{} for t in teams}
 
+    # List of terms like {'last_undefeated': ('KC',), 'last_winless': ('TB',)}
+    last_list = []
+
     #for div in rank_dict.keys():
     #    for team_sort in permutations(div_dict[div]):
     #        rank_dict[div][team_sort] = 0
@@ -130,6 +139,7 @@ if sim_button or ("rc" in st.session_state):
 
     for i in range(reps):
         df = simulate_reg_season(pr)
+        last_list.append(get_last(df))
         stand = Standings(df)
 
         p = stand.playoffs
@@ -162,9 +172,12 @@ if sim_button or ("rc" in st.session_state):
 
     div_charts = make_div_charts(rank_dict1)
 
+    last_charts = make_last_charts(last_list)
+
     st.session_state['pc'] = playoff_charts
     st.session_state['wc'] = win_charts
     st.session_state['dc'] = div_charts
+    st.session_state['lc'] = last_charts
 
 
 def make_ranking(df,col):
@@ -218,6 +231,7 @@ if 'pc' in st.session_state:
         st.header("Simulation results")
         st.write(st.session_state['pc'])
         st.write(st.session_state['wc'])
+    st.altair_chart(st.session_state['lc'])
 else:
     make_sample()
 

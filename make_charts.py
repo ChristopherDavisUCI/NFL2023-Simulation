@@ -176,3 +176,64 @@ def make_div_charts(rd):
         ).configure_concat(
             spacing=50
         )
+
+def make_last_charts(last_list):
+    last_winless_dct = {t: 0 for t in teams}
+    last_undefeated_dct = {t: 0 for t in teams}
+
+    for dct in last_list:
+        und = dct["last_undefeated"]
+        for t in und:
+            last_undefeated_dct[t] += 1/len(und)
+            
+        winless = dct["last_winless"]
+        for t in winless:
+            last_winless_dct[t] += 1/len(winless)
+
+    winless_ser = pd.Series(last_winless_dct)
+    winless_ser = winless_ser/winless_ser.sum()
+    winless_ser.name = "prob"
+    df_winless = winless_ser.reset_index()
+    df_winless["odds"] = df_winless["prob"].map(prob_to_odds)
+    df_winless = df_winless.rename({"index": "Team"}, axis=1)
+
+    undefeated_ser = pd.Series(last_undefeated_dct)
+    undefeated_ser = undefeated_ser/undefeated_ser.sum()
+    undefeated_ser.name = "prob"
+    df_undefeated = undefeated_ser.reset_index()
+    df_undefeated["odds"] = df_undefeated["prob"].map(prob_to_odds)
+    df_undefeated = df_undefeated.rename({"index": "Team"}, axis=1)
+
+    c1 = alt.Chart(df_undefeated, width=alt.Step(40)).mark_bar().encode(
+        x = alt.X("Team", sort=alt.EncodingSortField("prob", order="descending")),
+        y = "prob",
+        tooltip = ["Team", "prob", "odds"]
+    ).properties(
+        title="Last undefeated"
+    )
+
+    c2 = c1.mark_text(dy=-10).encode(
+        text="odds"
+    )
+
+    undefeated_chart = c1+c2
+
+    c1 = alt.Chart(df_winless, width=alt.Step(40)).mark_bar().encode(
+        x = alt.X("Team", sort=alt.EncodingSortField("prob", order="descending")),
+        y = "prob",
+        tooltip = ["Team", "prob", "odds"]
+    ).properties(
+        title="Last winless"
+    )
+
+    c2 = c1.mark_text(dy=-10).encode(
+        text="odds"
+    )
+
+    winless_chart = c1+c2
+
+    output_chart = alt.vconcat(undefeated_chart, winless_chart).configure_scale(
+        bandPaddingInner=0.5
+    )
+
+    return output_chart
