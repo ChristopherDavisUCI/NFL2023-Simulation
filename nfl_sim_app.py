@@ -4,13 +4,16 @@ import pandas as pd
 import altair as alt
 alt.data_transformers.disable_max_rows()
 from sim_23season import simulate_reg_season, make_pr_custom
+from sim_playoffs import stages, simulate_playoffs
 from make_standings import Standings
 from make_charts import (
                             make_playoff_charts,
                             make_win_charts, 
                             make_div_charts,
                             make_last_charts,
-                            make_streak_charts
+                            make_streak_charts,
+                            make_stage_charts,
+                            make_superbowl_chart
                         )
 from itertools import permutations
 from last_teams import get_last, get_streaks
@@ -133,6 +136,9 @@ if sim_button or ("rc" in st.session_state):
     # List of terms like {'last_undefeated': ('KC',), 'last_winless': ('TB',)}
     last_list = []
 
+    # Stage of elimination for each team
+    stage_dict = {t:{k: 0 for k in stages} for t in teams}
+
     #for div in rank_dict.keys():
     #    for team_sort in permutations(div_dict[div]):
     #        rank_dict[div][team_sort] = 0
@@ -150,6 +156,7 @@ if sim_button or ("rc" in st.session_state):
         stand = Standings(df)
 
         p = stand.playoffs
+        stage_of_elim = simulate_playoffs(pr, p)
         for conf in ["AFC","NFC"]:
             for j,t in enumerate(p[conf]):
                 playoff_dict[conf][j+1][t] += 1
@@ -158,6 +165,7 @@ if sim_button or ("rc" in st.session_state):
             win_dict[t][team_outcome["Wins"]] += 1
             rank_dict1[t][team_outcome["Division_rank"]] += 1
             streak_dict[t][streaks[t]] += 1
+            stage_dict[t][stage_of_elim[t]] += 1
         
         #for d in rank_dict.keys():
         #    rank_dict[d][tuple(stand.div_ranks[d])] += 1
@@ -184,11 +192,17 @@ if sim_button or ("rc" in st.session_state):
 
     streak_charts = make_streak_charts(streak_dict)
 
+    stage_charts = make_stage_charts(stage_dict)
+
+    superbowl_chart = make_superbowl_chart(stage_dict)
+
     st.session_state['pc'] = playoff_charts
     st.session_state['wc'] = win_charts
     st.session_state['dc'] = div_charts
     st.session_state['lc'] = last_charts
     st.session_state['streak_charts'] = streak_charts
+    st.session_state['stage_charts'] = stage_charts
+    st.session_state['superbowl_chart'] = superbowl_chart
 
 
 def make_ranking(df,col):
@@ -244,6 +258,8 @@ if 'pc' in st.session_state:
         st.write(st.session_state['wc'])
     st.altair_chart(st.session_state['lc'])
     st.altair_chart(st.session_state["streak_charts"])
+    st.altair_chart(st.session_state["stage_charts"])
+    st.altair_chart(st.session_state["superbowl_chart"])
 else:
     make_sample()
 

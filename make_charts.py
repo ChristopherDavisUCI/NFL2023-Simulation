@@ -296,3 +296,80 @@ def make_streak_charts(streak_dict):
     )
 
     return streak_concat
+
+def make_stage_charts(stage_dict):
+    odds_dict2 = {"Proportion":"Odds"}
+
+    reps = sum(stage_dict["ARI"].values())
+    stages = stage_dict["ARI"].keys()
+
+    stage_charts = {}
+    for conf in ["AFC","NFC"]:
+        source = pd.DataFrame([(stage,t,stage_dict[t][stage]/reps) for t in conf_teams[conf] for stage in stages],
+                    columns = ["Stage","Team","Proportion"])
+
+
+        for c in odds_dict2.keys():
+            source[odds_dict2[c]] = source[c].map(prob_to_odds)
+
+        c = alt.Chart(source).mark_bar().encode(
+                y=alt.Y('Team'),
+                x=alt.X('Proportion',scale=alt.Scale(domain=[0,1])),
+                tooltip = [alt.Tooltip("Team"),
+                    alt.Tooltip('Stage'),
+                    alt.Tooltip('prob_odds:N',title="Proportion")],
+                color=alt.Color('Stage:N', scale=alt.Scale(scheme='tableau20'),
+                            sort = None),
+                order=alt.Order(
+                    'Team:N',
+                    sort='ascending'
+                )
+            ).transform_calculate(
+                prob_odds="format(datum.Proportion, ',.3f')+' (' +datum.Odds+')'"
+            ).properties(
+                title=f"{conf} Stage of Elimination",
+                width=300,
+                height=300,
+            )
+
+        overlay = pd.DataFrame({'Proportion': [0.5]})
+        vline = alt.Chart(overlay).mark_rule(color='black', strokeWidth=.6).encode(x='Proportion:Q')
+
+        stage_charts[conf] = c + vline
+
+    stage_totals = alt.hconcat(*stage_charts.values()).resolve_scale(
+        color='independent'
+    ).properties(
+        title=f"Based on {reps} simulations:"
+    )
+
+    return stage_totals
+
+def make_superbowl_chart(stage_dict):
+
+    reps = sum(stage_dict["ARI"].values())
+
+    teams = stage_dict.keys()
+
+    sb_dict = {t: stage_dict[t]["Win Super Bowl"]/reps for t in teams}
+
+    source = pd.DataFrame([(t,sb_dict[t]) for t in teams], columns = ["Team","Proportion"])
+
+    source["Odds"] = source["Proportion"].map(prob_to_odds)
+
+
+    c1 = alt.Chart(source, width=alt.Step(40)).mark_bar().encode(
+        x = alt.X("Team", sort=alt.EncodingSortField("Proportion", order="descending")),
+        y = "Proportion",
+        tooltip = ["Team", "Proportion", "Odds"]
+    ).properties(
+        title="Super Bowl Winner"
+    )
+
+    c2 = c1.mark_text(dy=-10).encode(
+        text="Odds"
+    )
+
+    superbowl_chart = c1+c2
+
+    return superbowl_chart
