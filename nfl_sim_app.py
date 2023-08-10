@@ -13,10 +13,12 @@ from make_charts import (
                             make_last_charts,
                             make_streak_charts,
                             make_stage_charts,
-                            make_superbowl_chart
+                            make_superbowl_chart,
+                            best_record_chart
                         )
 from itertools import permutations
 from last_teams import get_last, get_streaks
+from name_helper import get_abbr
 import time
 
 st.set_page_config(layout="wide")
@@ -65,19 +67,70 @@ with st.sidebar:
 
     st.write("Set your power ratings.")
 
+    with st.expander("Set ratings from a csv file"):
+
+        pr_download = pr_default.drop("mean_score")
+
+        st.download_button(
+            "Download a template", 
+            data = pr_download.to_csv().encode('utf-8'),
+            file_name = "power_ratings.csv",
+            mime="text/csv"
+            )
+
+        pr_file = st.file_uploader("Accepts a csv file", type=["csv"])
+
+        if pr_file:
+            df_upload = pd.read_csv(pr_file)
+            for name in ["Team", "team", "TEAM"]:
+                if name in df_upload.columns:
+                    df_upload = df_upload.set_index("Team", drop=True)
+                    found = True
+                    break
+            if not found:
+                df_upload = df_upload.set_index(df_upload.columns[0], drop=True)
+            if "PR" in df_upload.columns:
+                pr_upload = df_upload["PR"]
+            elif "pr" in df_upload.columns:
+                pr_upload = df_upload["pr"]
+            else:
+                pr_upload = df_upload.iloc[:, 0]
+            pr_upload2 = pd.Series()
+            for k in pr_upload.index:
+                if k.upper().strip() == "HFA":
+                    pr_upload2["HFA"] = pr_upload[k]
+                abbr = get_abbr(k)
+                if abbr:
+                    pr_upload2[abbr] = pr_upload[k]
+            
+            # Replace the uploaded ratings with the cleaned version
+            pr_upload = pr_upload2
+
+
 
 pr = {"mean_score": float(pr_default["mean_score"])}
 
 with st.sidebar:
+
     for t in teams:
+        try:
+            value = pr_upload[t]
+        except (NameError, KeyError): 
+            value = pr_default[t]
         pr[t] = st.slider(
             f'{t} power rating',
-            -15.0, 15.0, float(pr_default[t]))
+            -15.0, 15.0, float(value))
+        
     st.subheader("Extra parameter:")
+    try:
+        value = pr_upload["HFA"]
+    except (NameError, KeyError): 
+        value = pr_default["HFA"]
     pr["HFA"] = st.slider(
         'Home field advantage',
-        0.0, 10.0, float(pr_default["HFA"]))
-    pr_complete = make_pr_custom(pr_default)
+        0.0, 10.0, float(value))
+    
+    pr_complete = make_pr_custom(pr)
 
 
 with st.sidebar:
@@ -139,6 +192,9 @@ if sim_button or ("rc" in st.session_state):
     # Stage of elimination for each team
     stage_dict = {t:{k: 0 for k in stages} for t in teams}
 
+    # List of best regular season record teams
+    best_record_list = []
+
     #for div in rank_dict.keys():
     #    for team_sort in permutations(div_dict[div]):
     #        rank_dict[div][team_sort] = 0
@@ -166,6 +222,8 @@ if sim_button or ("rc" in st.session_state):
             rank_dict1[t][team_outcome["Division_rank"]] += 1
             streak_dict[t][streaks[t]] += 1
             stage_dict[t][stage_of_elim[t]] += 1
+
+        best_record_list.append(stand.best_reg_record)
         
         #for d in rank_dict.keys():
         #    rank_dict[d][tuple(stand.div_ranks[d])] += 1
@@ -196,6 +254,8 @@ if sim_button or ("rc" in st.session_state):
 
     superbowl_chart = make_superbowl_chart(stage_dict)
 
+    best_chart = best_record_chart(best_record_list)
+
     st.session_state['pc'] = playoff_charts
     st.session_state['wc'] = win_charts
     st.session_state['dc'] = div_charts
@@ -203,6 +263,7 @@ if sim_button or ("rc" in st.session_state):
     st.session_state['streak_charts'] = streak_charts
     st.session_state['stage_charts'] = stage_charts
     st.session_state['superbowl_chart'] = superbowl_chart
+    st.session_state['best_chart'] = best_chart
 
 
 def make_ranking(df,col):
@@ -256,10 +317,11 @@ if 'pc' in st.session_state:
         st.header("Simulation results")
         st.write(st.session_state['pc'])
         st.write(st.session_state['wc'])
+    st.altair_chart(st.session_state["superbowl_chart"])
+    st.altair_chart(st.session_state["stage_charts"])
+    st.altair_chart(st.session_state["best_chart"])
     st.altair_chart(st.session_state['lc'])
     st.altair_chart(st.session_state["streak_charts"])
-    st.altair_chart(st.session_state["stage_charts"])
-    st.altair_chart(st.session_state["superbowl_chart"])
 else:
     make_sample()
 

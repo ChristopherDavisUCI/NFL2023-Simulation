@@ -192,41 +192,45 @@ def make_last_charts(last_list):
 
     winless_ser = pd.Series(last_winless_dct)
     winless_ser = winless_ser/winless_ser.sum()
-    winless_ser.name = "prob"
+    winless_ser.name = "Proportion"
     df_winless = winless_ser.reset_index()
-    df_winless["odds"] = df_winless["prob"].map(prob_to_odds)
+    df_winless["odds"] = df_winless["Proportion"].map(prob_to_odds)
     df_winless = df_winless.rename({"index": "Team"}, axis=1)
 
     undefeated_ser = pd.Series(last_undefeated_dct)
     undefeated_ser = undefeated_ser/undefeated_ser.sum()
-    undefeated_ser.name = "prob"
+    undefeated_ser.name = "Proportion"
     df_undefeated = undefeated_ser.reset_index()
-    df_undefeated["odds"] = df_undefeated["prob"].map(prob_to_odds)
+    df_undefeated["odds"] = df_undefeated["Proportion"].map(prob_to_odds)
     df_undefeated = df_undefeated.rename({"index": "Team"}, axis=1)
 
     c1 = alt.Chart(df_undefeated, width=alt.Step(40)).mark_bar().encode(
-        x = alt.X("Team", sort=alt.EncodingSortField("prob", order="descending")),
-        y = "prob",
-        tooltip = ["Team", "prob", "odds"]
+        x = alt.X("Team", sort=alt.EncodingSortField("Proportion", order="descending")),
+        y = "Proportion",
+        color = alt.Color("Proportion",scale=alt.Scale(scheme="lighttealblue")),
+        tooltip = ["Team", "Proportion", "odds"]
     ).properties(
         title="Last undefeated"
     )
 
     c2 = c1.mark_text(dy=-10).encode(
+        color=alt.value("black"),
         text="odds"
     )
 
     undefeated_chart = c1+c2
 
     c1 = alt.Chart(df_winless, width=alt.Step(40)).mark_bar().encode(
-        x = alt.X("Team", sort=alt.EncodingSortField("prob", order="descending")),
-        y = "prob",
-        tooltip = ["Team", "prob", "odds"]
+        x = alt.X("Team", sort=alt.EncodingSortField("Proportion", order="descending")),
+        y = "Proportion",
+        color = alt.Color("Proportion",scale=alt.Scale(scheme="lighttealblue")),
+        tooltip = ["Team", "Proportion", "odds"]
     ).properties(
         title="Last winless"
     )
 
     c2 = c1.mark_text(dy=-10).encode(
+        color=alt.value("black"),
         text="odds"
     )
 
@@ -361,15 +365,51 @@ def make_superbowl_chart(stage_dict):
     c1 = alt.Chart(source, width=alt.Step(40)).mark_bar().encode(
         x = alt.X("Team", sort=alt.EncodingSortField("Proportion", order="descending")),
         y = "Proportion",
+        color = alt.Color("Proportion", scale=alt.Scale(scheme="lighttealblue")),
         tooltip = ["Team", "Proportion", "Odds"]
     ).properties(
         title="Super Bowl Winner"
     )
 
     c2 = c1.mark_text(dy=-10).encode(
+        color=alt.value("black"),
         text="Odds"
     )
 
     superbowl_chart = c1+c2
 
     return superbowl_chart
+
+
+def best_record_chart(best_list):
+    best_dct = {t: 0 for t in teams}
+
+    for t in best_list:
+        best_dct[t] += 1
+
+    best_ser = pd.Series(best_dct)
+    best_ser = best_ser/best_ser.sum()
+    best_ser.name = "Proportion"
+    df_best = best_ser.reset_index()
+    df_best["odds"] = df_best["Proportion"].map(prob_to_odds)
+    df_best = df_best.rename({"index": "Team"}, axis=1)
+
+    c1 = alt.Chart(df_best, width=alt.Step(40)).mark_bar().encode(
+        x = alt.X("Team", sort=alt.EncodingSortField("Proportion", order="descending")),
+        y = "Proportion",
+        color = alt.Color("Proportion",scale=alt.Scale(scheme="lighttealblue")),
+        tooltip = ["Team", "Proportion", "odds"]
+    ).properties(
+        title="Best Regular Season Record"
+    )
+
+    c2 = c1.mark_text(dy=-10).encode(
+        color=alt.value("black"),
+        text="odds"
+    )
+
+    output_chart = (c1+c2).configure_scale(
+        bandPaddingInner=0.5
+    )
+
+    return output_chart

@@ -306,6 +306,32 @@ def rank_within_divs(dw,df_ind,df_standings):
         dr[div] = [dw[div]]+dr[div]
     return dr
 
+
+# Should probably rewrite this to be more like break_tie_conf
+def get_best_record(teams, df_ind, df_standings):
+    df = df_standings[df_standings["Team"].isin(teams)].sort_values("WLT",ascending=False).copy()
+    t = analyze_dict(dict(df.loc[teams,"WLT"]), df_ind, df_standings)
+    if t:
+        return t
+    t = find_sweep(teams, df_ind, df_standings)
+    if t:
+        return t
+    common = get_common(teams,df_ind)
+    df_sub_list = [df_ind[(df_ind.Team == t) & (df_ind.Opponent.isin(common))] for t in teams]
+    if min([len(df_sub) for df_sub in df_sub_list]) >= 4:
+        common_dict = {t: get_WLT(df_ind[(df_ind.Team == t) & (df_ind.Opponent.isin(common))]) for t in teams}
+        t = analyze_dict(common_dict, df_ind, df_standings)
+        if t:
+            return t
+    wlt_dict = {t: get_strength(get_victories(t,df_ind),df_ind) for t in teams}
+    t = analyze_dict(wlt_dict, df_ind, df_standings)
+    if t:
+        return t
+    # Not finished, we return a random choice if not yet found
+    return np.random.choice(teams)
+    
+
+
 def make_ind(df):
     df_ind = pd.DataFrame(index=range(2*len(df)),columns=["Team","Opponent","Points_scored","Points_allowed","Outcome","div_game","conf_game"])
     cols = list(df_ind.columns)
@@ -354,4 +380,4 @@ class Standings:
                 except:
                     pass
         self.playoffs = {conf:dw[conf] + wild_cards[conf] for conf in ["AFC","NFC"]}
-
+        self.best_reg_record = get_best_record([dw["AFC"][0], dw["NFC"][0]], df_ind, self.standings)
