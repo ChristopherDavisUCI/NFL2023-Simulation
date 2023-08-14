@@ -85,8 +85,13 @@ def make_playoff_charts(total_dict):
 
     return playoff_charts
 
+
 def make_win_charts(win_dict):
-    odds_dict2 = {"Proportion":"Odds", "Equal_higher":"Odds_Equal_higher"}
+    odds_dict2 = {
+                    "Proportion":"Odds",
+                    "Equal_higher":"Odds_Equal_higher",
+                    "Push_no_bet":"Odds_Push_no_bet"
+                }
 
     reps = sum(win_dict["ARI"].values())
 
@@ -96,9 +101,12 @@ def make_win_charts(win_dict):
                     columns = ["Wins","Team","Proportion"])
         
         for a,b in source.groupby("Team"):
-            source.loc[source["Team"] == a,"Equal_higher"] = 1 - b.Proportion.cumsum()
-        
-        source["Equal_higher"] += source["Proportion"]
+            loss_series = b.Proportion.cumsum()
+            eq_higher = 1 - loss_series + b.Proportion
+            higher = eq_higher - b.Proportion
+            push_no_bet = higher/(1-b.Proportion)
+            source.loc[source["Team"] == a, "Equal_higher"] = eq_higher
+            source.loc[source["Team"] == a, "Push_no_bet"] = push_no_bet
 
         for c in odds_dict2.keys():
             source[odds_dict2[c]] = source[c].map(prob_to_odds)
@@ -114,7 +122,8 @@ def make_win_charts(win_dict):
                 tooltip = [alt.Tooltip("Team"),
                     alt.Tooltip('Wins', format=".0f"),
                     alt.Tooltip('prob_odds:N',title="Proportion"),
-                    alt.Tooltip('equal_odds:N',title="Equal or higher")],
+                    alt.Tooltip('equal_odds:N',title="Equal or higher"),
+                    alt.Tooltip('push_odds:N',title="Push no bet")],
                 color=alt.Color('Wins:N', scale=alt.Scale(scheme='tableau20'),
                             sort = ordering_wins),
                 order=alt.Order(
@@ -123,7 +132,8 @@ def make_win_charts(win_dict):
                 )
             ).transform_calculate(
                 prob_odds="format(datum.Proportion, ',.3f')+' (' +datum.Odds+')'",
-                equal_odds="format(datum.Equal_higher, ',.3f')+' (' +datum.Odds_Equal_higher+')'"
+                equal_odds="format(datum.Equal_higher, ',.3f')+' (' +datum.Odds_Equal_higher+')'",
+                push_odds="format(datum.Push_no_bet, ',.3f')+' (' +datum.Odds_Push_no_bet+')'"
             ).properties(
                 title=f"{conf} win totals",
                 width=300,
@@ -143,9 +153,11 @@ def make_win_charts(win_dict):
 
     return win_totals
 
+
 def custom_sort(rd,div):
     div_teams = list(div_series[div_series==div].index)
     return sorted(div_teams,key = lambda t: rd[t][1], reverse=True)
+
 
 def make_div_charts(rd):
 
@@ -176,6 +188,7 @@ def make_div_charts(rd):
         ).configure_concat(
             spacing=50
         )
+
 
 def make_last_charts(last_list):
     last_winless_dct = {t: 0 for t in teams}
@@ -244,7 +257,11 @@ def make_last_charts(last_list):
 
 
 def make_streak_charts(streak_dict):
-    odds_dict2 = {"Proportion":"Odds", "Equal_higher":"Odds_Equal_higher"}
+    odds_dict2 = {
+                "Proportion":"Odds",
+                "Equal_higher":"Odds_Equal_higher",
+                "Push_no_bet":"Odds_Push_no_bet"
+            }
 
     reps = sum(streak_dict["ARI"].values())
 
@@ -254,9 +271,12 @@ def make_streak_charts(streak_dict):
                     columns = ["Max win streak", "Team", "Proportion"])
         
         for a,b in source.groupby("Team"):
-            source.loc[source["Team"] == a,"Equal_higher"] = 1 - b.Proportion.cumsum()
-        
-        source["Equal_higher"] += source["Proportion"]
+            loss_series = b.Proportion.cumsum()
+            eq_higher = 1 - loss_series + b.Proportion
+            higher = eq_higher - b.Proportion
+            push_no_bet = higher/(1-b.Proportion)
+            source.loc[source["Team"] == a, "Equal_higher"] = eq_higher
+            source.loc[source["Team"] == a, "Push_no_bet"] = push_no_bet
 
         for c in odds_dict2.keys():
             source[odds_dict2[c]] = source[c].map(prob_to_odds)
@@ -272,7 +292,8 @@ def make_streak_charts(streak_dict):
                 tooltip = [alt.Tooltip("Team"),
                     alt.Tooltip('Max win streak', format=".0f"),
                     alt.Tooltip('prob_odds:N',title="Proportion"),
-                    alt.Tooltip('equal_odds:N',title="Equal or higher")],
+                    alt.Tooltip('equal_odds:N',title="Equal or higher"),
+                    alt.Tooltip('push_odds:N',title="Push no bet")],
                 color=alt.Color('Max win streak:N', scale=alt.Scale(scheme='tableau20'),
                             sort = ordering_streaks),
                 order=alt.Order(
@@ -281,7 +302,8 @@ def make_streak_charts(streak_dict):
                 )
             ).transform_calculate(
                 prob_odds="format(datum.Proportion, ',.3f')+' (' +datum.Odds+')'",
-                equal_odds="format(datum.Equal_higher, ',.3f')+' (' +datum.Odds_Equal_higher+')'"
+                equal_odds="format(datum.Equal_higher, ',.3f')+' (' +datum.Odds_Equal_higher+')'",
+                push_odds="format(datum.Push_no_bet, ',.3f')+' (' +datum.Odds_Push_no_bet+')'"
             ).properties(
                 title=f"{conf} longest win streaks",
                 width=300,
