@@ -3,6 +3,7 @@ import numpy as np
 from numpy.random import default_rng
 
 df = pd.read_csv("schedules/schedule23.csv")
+df_stored = df.copy()
 pr_default = pd.read_csv("data/pr.csv", index_col="Team").squeeze()
 pr_custom = pd.Series()
 teams = sorted(list(set(df["home_team"])))
@@ -28,7 +29,10 @@ def simulate_reg_season(pr = pr_default):
     df.loc[:,scores] = rng.normal(df[["mean_home","mean_away"]], 10)
     df.loc[:,scores] = df.loc[:,scores].round()
     df[scores] = df[scores].mask(df[scores] < 0, 0)
+    # Games already played, put back in
+    played_boolean = df_stored["home_score"].notna()
     adjust_ties(df)
+    df.loc[played_boolean, scores] = df_stored.loc[played_boolean, scores]
     return df
 
 def make_pr_custom(pr):

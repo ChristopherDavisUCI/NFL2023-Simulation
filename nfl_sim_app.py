@@ -161,6 +161,8 @@ sim_button = button_cols1.button("Run simulations")
 with button_cols2:
     time_holder = st.empty()
 
+# "rc" stands for "repetitions changed"
+# does it really make sense to run in that case?
 if sim_button or ("rc" in st.session_state):
     try:
         del st.session_state["rc"]
