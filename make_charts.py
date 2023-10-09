@@ -33,6 +33,9 @@ def make_playoff_charts(total_dict):
 
     chart_dict = {}
 
+    # The following will hold both conference DataFrames, which we will then concatenate.
+    source_list = []
+
     for conf in ["AFC","NFC"]:
 
         playoff_dicts = total_dict[conf]
@@ -48,6 +51,8 @@ def make_playoff_charts(total_dict):
 
         for c in odds_dict.keys():
             source[odds_dict[c]] = source[c].map(prob_to_odds)
+
+        source_list.append(source.copy())
 
         ordering = sorted(conf_teams[conf],key=lambda t: sum([playoff_dicts[i][t] for i in playoff_dicts.keys()]),reverse=True)
         ordering_seeds = list(range(7,0,-1))
@@ -83,7 +88,9 @@ def make_playoff_charts(total_dict):
         title=f"Based on {reps} simulations:"
     )
 
-    return playoff_charts
+    raw_data = pd.concat(source_list, axis=0)
+
+    return (playoff_charts, raw_data)
 
 
 def make_win_charts(win_dict):

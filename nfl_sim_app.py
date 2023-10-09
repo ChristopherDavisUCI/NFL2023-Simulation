@@ -16,9 +16,11 @@ from make_charts import (
                             make_superbowl_chart,
                             best_record_chart
                         )
+from compare_market import compare_market
 from itertools import permutations
 from last_teams import get_last, get_streaks
 from name_helper import get_abbr
+from odds_helper import prob_to_odds
 import time
 
 st.set_page_config(layout="wide")
@@ -46,17 +48,6 @@ def comb_changed():
     if "pc" in st.session_state:
         st.session_state["rc"] = True
 
-def prob_to_odds(p):
-    if p < .000001:
-        return "NA"
-    if p > .999999:
-        return "NA"
-    if p > 0.5:
-        x = 100*p/(p-1)
-        return f"{x:.0f}"
-    elif p <= 0.5:
-        x = 100*(1-p)/p
-        return f"+{x:.0f}"
 
 max_reps = 5000
 
@@ -242,7 +233,7 @@ if sim_button or ("rc" in st.session_state):
     time_holder.write(f"{reps} simulations of the 2023 NFL regular season took {end - start:.1f} seconds.")
 
 
-    playoff_charts = make_playoff_charts(playoff_dict)
+    playoff_charts, raw_data = make_playoff_charts(playoff_dict)
 
     win_charts = make_win_charts(win_dict)
 
@@ -266,6 +257,7 @@ if sim_button or ("rc" in st.session_state):
     st.session_state['stage_charts'] = stage_charts
     st.session_state['superbowl_chart'] = superbowl_chart
     st.session_state['best_chart'] = best_chart
+    st.session_state['raw_data'] = compare_market(raw_data)
 
 
 def make_ranking(df,col):
@@ -322,8 +314,11 @@ if 'pc' in st.session_state:
     st.altair_chart(st.session_state["superbowl_chart"])
     st.altair_chart(st.session_state["stage_charts"])
     st.altair_chart(st.session_state["best_chart"])
-    st.altair_chart(st.session_state['lc'])
-    st.altair_chart(st.session_state["streak_charts"])
+    df_temp = pd.read_csv("data/markets.csv")
+    st.write(f'''The following were last updated on {df_temp.loc[0, 'date']}.  Needless to say, do not take the kelly staking sizes literally!!  (Along with errors and imprecisions in our app, also keep in mind how long the stake will be sitting unused.)''')
+    st.dataframe(st.session_state['raw_data'])
+    # st.altair_chart(st.session_state['lc'])
+    # st.altair_chart(st.session_state["streak_charts"])
 else:
     make_sample()
 
