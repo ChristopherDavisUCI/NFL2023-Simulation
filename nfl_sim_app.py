@@ -49,7 +49,7 @@ def comb_changed():
         st.session_state["rc"] = True
 
 
-max_reps = 5000
+max_reps = 2000
 
 reps = st.sidebar.number_input('Number of simulations to run:',value=200, min_value = 1, max_value = max_reps, help = f'''The maximum allowed value is {max_reps}.''',on_change=reps_changed)
 
