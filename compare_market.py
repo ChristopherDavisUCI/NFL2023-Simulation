@@ -16,21 +16,31 @@ def make_playoffs(raw_data):
     return df["Make_playoffs"]
 
 def get_prob(row, ser_div, ser_mp):
-    if row["market"] == "division":
+    if row["raw_market"] == "division":
         return ser_div[row["team"]]
-    elif (row["market"] == "make playoffs") & (row["result"] == "Yes"):
+    elif (row["raw_market"] == "make playoffs") & (row["result"] == "Yes"):
         return ser_mp[row["team"]]
-    elif (row["market"] == "make playoffs") & (row["result"] == "No"):
+    elif (row["raw_market"] == "make playoffs") & (row["result"] == "No"):
         return 1-ser_mp[row["team"]]
+    
+def name_market(row):
+    if row["raw_market"] == "division":
+        return "Win division"
+    elif (row["raw_market"] == "make playoffs") & (row["result"] == "Yes"):
+        return "Make playoffs - Yes"
+    elif (row["raw_market"] == "make playoffs") & (row["result"] == "No"):
+        return "Make playofffs - No"
 
 # Columns for raw_data are:
 # Seed, Team, Proportion, Make_playoffs, Equal_better
 # Odds, Odds_Make_playoffs, Odds_Equal_better
 def compare_market(raw_data):
     market = pd.read_csv("data/markets.csv")
+    market.rename({"market": "raw_market"}, axis=1, inplace=True)
     ser_div = win_div(raw_data)
     ser_mp = make_playoffs(raw_data)
     market["prob"] = market.apply(lambda row: get_prob(row, ser_div, ser_mp), axis=1)
+    market["market"] = market.apply(name_market, axis=1)
     market["kelly"] = market.apply(lambda row: kelly(row["prob"], row["odds"]), axis=1)
     rec = market[market["kelly"] > 0].sort_values("kelly", ascending=False)
     return rec[["team", "market", "odds", "prob", "site", "kelly"]].reset_index(drop=True)
