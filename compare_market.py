@@ -30,6 +30,14 @@ def name_market(row):
         return "Make playoffs - Yes"
     elif (row["raw_market"] == "make playoffs") & (row["result"] == "No"):
         return "Make playofffs - No"
+    
+
+def display_plus(s):
+    if s[0] == "-":
+        return s
+    else:
+        return "+"+s
+
 
 # Columns for raw_data are:
 # Seed, Team, Proportion, Make_playoffs, Equal_better
@@ -43,4 +51,5 @@ def compare_market(raw_data):
     market["market"] = market.apply(name_market, axis=1)
     market["kelly"] = market.apply(lambda row: kelly(row["prob"], row["odds"]), axis=1)
     rec = market[market["kelly"] > 0].sort_values("kelly", ascending=False)
+    rec["odds"] = rec["odds"].astype(str).map(display_plus)
     return rec[["team", "market", "odds", "prob", "site", "kelly"]].reset_index(drop=True)

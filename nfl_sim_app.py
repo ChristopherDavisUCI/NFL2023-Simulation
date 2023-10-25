@@ -25,7 +25,7 @@ import time
 
 st.set_page_config(layout="wide")
 
-st.title('2023 NFL Regular Season Simulator')
+st.title('2023 NFL Season Simulator')
 
 pr_default = pd.read_csv("data/pr.csv", index_col="Team").squeeze()
 div_series = pd.read_csv("data/divisions.csv", index_col=0).squeeze()
@@ -134,12 +134,12 @@ df_pr = pd.DataFrame({"Overall": {t:pr_complete[t+"_Off"] + pr_complete[t+"_Def"
         )
 
 
-st.markdown('''Based on your power ratings, we use Python to run many simulations of the 2023 NFL regular season, and then estimate answers to questions like:
+st.markdown('''Based on your power ratings, we use Python to run many simulations of the 2023 NFL season, and then estimate answers to questions like:
 * How likely is Dallas to get the no. 1 seed?  To win its division? To make the playoffs?
 * How likely are the Steelers to win exactly 11 games?  To win 11 or more games?
 * How likely are the Patriots to finish 3rd in the AFC East?''')
 
-st.markdown('''In each simulation, a random outcome is generated for all 272 regular season games.  The outcomes are based on the power ratings; you should customize these power ratings on the left.
+st.markdown('''In each simulation, a random outcome is generated for all 272 regular season + 13 postseason games.  The outcomes are based on the power ratings; you should customize these power ratings on the left.
 (**Warning**.  Even if you set the absolute perfect power ratings, our simulation is too simple to provide true probabilities.  For example, our simulation assumes the power ratings stay constant throughout the season.)
 
 
@@ -162,7 +162,7 @@ if sim_button or ("rc" in st.session_state):
     st.header("Simulation results")
     placeholder0 = st.empty()
     placeholder1 = st.empty()
-    placeholder0.text(f"Running {reps} simulations of the 2023 NFL regular season")
+    placeholder0.text(f"Running {reps} simulations of the 2023 NFL season")
     bar = placeholder1.progress(0.0)
     st.write("")
 
@@ -230,7 +230,7 @@ if sim_button or ("rc" in st.session_state):
 
     end = time.time()
     
-    time_holder.write(f"{reps} simulations of the 2023 NFL regular season took {end - start:.1f} seconds.")
+    time_holder.write(f"{reps} simulations of the 2023 NFL season took {end - start:.1f} seconds.")
 
 
     playoff_charts, raw_data = make_playoff_charts(playoff_dict)
