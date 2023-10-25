@@ -21,26 +21,26 @@ def get_results(df):
     return df
 
 
-def get_streaks(df):
-    df = get_results(df)
+# def get_streaks(df):
+#     df = get_results(df)
 
-    streak_dct = {team: 0 for team in set(df["away_team"])}
+#     streak_dct = {team: 0 for team in set(df["away_team"])}
 
-    for team in streak_dct.keys():
-        arr = np.nonzero(df[(df[["winner", "loser"]] == team).any(axis=1)]["winner"] == team)[0]
-        if len(arr) == 0:
-            streak_dct[team] = 0
-            continue
+#     for team in streak_dct.keys():
+#         arr = np.nonzero(df[(df[["winner", "loser"]] == team).any(axis=1)]["winner"] == team)[0]
+#         if len(arr) == 0:
+#             streak_dct[team] = 0
+#             continue
         
-        arr = arr + 1 # Just so they are week numbers rather than index numbers
-        idx = np.nonzero(np.diff(arr) != 1)[0]
-        start_idx = np.concatenate(([0], idx + 1)) # I don't really understand, Bing chat
-        end_idx = np.concatenate((idx, [len(arr) - 1]))
-        run_lengths = end_idx - start_idx + 1
+#         arr = arr + 1 # Just so they are week numbers rather than index numbers
+#         idx = np.nonzero(np.diff(arr) != 1)[0]
+#         start_idx = np.concatenate(([0], idx + 1)) # I don't really understand, Bing chat
+#         end_idx = np.concatenate((idx, [len(arr) - 1]))
+#         run_lengths = end_idx - start_idx + 1
         
-        streak_dct[team] = run_lengths.max()
+#         streak_dct[team] = run_lengths.max()
 
-    return streak_dct
+#     return streak_dct
 
 
 def get_last(df):

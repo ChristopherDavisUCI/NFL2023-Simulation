@@ -18,7 +18,7 @@ from make_charts import (
                         )
 from compare_market import compare_market
 from itertools import permutations
-from last_teams import get_last, get_streaks
+#from last_teams import get_last, get_streaks
 from name_helper import get_abbr
 from odds_helper import prob_to_odds
 import time
@@ -174,13 +174,13 @@ if sim_button or ("rc" in st.session_state):
     win_dict = {t:{i:0 for i in range(18)} for t in teams}
 
     # Longest win streak for each team
-    streak_dict = {t:{i:0 for i in range(18)} for t in teams}
+    # streak_dict = {t:{i:0 for i in range(18)} for t in teams}
 
     #rank_dict = {div:{} for div in div_dict.keys()}
     rank_dict1 = {t:{} for t in teams}
 
     # List of terms like {'last_undefeated': ('KC',), 'last_winless': ('TB',)}
-    last_list = []
+    #last_list = []
 
     # Stage of elimination for each team
     stage_dict = {t:{k: 0 for k in stages} for t in teams}
@@ -200,8 +200,8 @@ if sim_button or ("rc" in st.session_state):
 
     for i in range(reps):
         df = simulate_reg_season(pr)
-        streaks = get_streaks(df)
-        last_list.append(get_last(df))
+        #streaks = get_streaks(df)
+        #last_list.append(get_last(df))
         stand = Standings(df)
 
         p = stand.playoffs
@@ -213,7 +213,7 @@ if sim_button or ("rc" in st.session_state):
             team_outcome = stand.standings.loc[t]
             win_dict[t][team_outcome["Wins"]] += 1
             rank_dict1[t][team_outcome["Division_rank"]] += 1
-            streak_dict[t][streaks[t]] += 1
+            #streak_dict[t][streaks[t]] += 1
             stage_dict[t][stage_of_elim[t]] += 1
 
         best_record_list.append(stand.best_reg_record)
@@ -239,9 +239,9 @@ if sim_button or ("rc" in st.session_state):
 
     div_charts = make_div_charts(rank_dict1)
 
-    last_charts = make_last_charts(last_list)
+    #last_charts = make_last_charts(last_list)
 
-    streak_charts = make_streak_charts(streak_dict)
+    #streak_charts = make_streak_charts(streak_dict)
 
     stage_charts = make_stage_charts(stage_dict)
 
@@ -252,8 +252,8 @@ if sim_button or ("rc" in st.session_state):
     st.session_state['pc'] = playoff_charts
     st.session_state['wc'] = win_charts
     st.session_state['dc'] = div_charts
-    st.session_state['lc'] = last_charts
-    st.session_state['streak_charts'] = streak_charts
+    #st.session_state['lc'] = last_charts
+    #st.session_state['streak_charts'] = streak_charts
     st.session_state['stage_charts'] = stage_charts
     st.session_state['superbowl_chart'] = superbowl_chart
     st.session_state['best_chart'] = best_chart
