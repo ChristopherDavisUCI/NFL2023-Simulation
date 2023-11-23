@@ -330,11 +330,14 @@ def make_streak_charts(streak_dict):
 
     return streak_concat
 
+
 def make_stage_charts(stage_dict):
     odds_dict2 = {"Proportion":"Odds"}
 
     reps = sum(stage_dict["ARI"].values())
     stages = stage_dict["ARI"].keys()
+
+    source_list = []
 
     stage_charts = {}
     for conf in ["AFC","NFC"]:
@@ -370,13 +373,17 @@ def make_stage_charts(stage_dict):
 
         stage_charts[conf] = c + vline
 
+        source_list.append(source)
+
     stage_totals = alt.hconcat(*stage_charts.values()).resolve_scale(
         color='independent'
     ).properties(
         title=f"Based on {reps} simulations:"
     )
 
-    return stage_totals
+    raw_data = pd.concat(source_list, axis=0)
+
+    return (stage_totals, raw_data)
 
 def make_superbowl_chart(stage_dict):
 

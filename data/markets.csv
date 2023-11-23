@@ -1,123 +1,347 @@
-team,odds,date,site,division,market,result
-DET,-3000,Nov21,BetOnline,NFC North,division,
-MIN,800,Nov21,BetOnline,NFC North,division,
-GB,4000,Nov21,BetOnline,NFC North,division,
-CHI,50000,Nov21,BetOnline,NFC North,division,
-PHI,-1100,Nov21,BetOnline,NFC East,division,
-DAL,450,Nov21,BetOnline,NFC East,division,
-WAS,50000,Nov21,BetOnline,NFC East,division,
-NYG,75000,Nov21,BetOnline,NFC East,division,
-SF,-900,Nov21,BetOnline,NFC West,division,
-SEA,500,Nov21,BetOnline,NFC West,division,
-LA,3300,Nov21,BetOnline,NFC West,division,
-ARI,25000,Nov21,BetOnline,NFC West,division,
-MIA,-400,Nov21,BetOnline,AFC East,division,
-BUF,275,Nov21,BetOnline,AFC East,division,
-NYJ,3500,Nov21,BetOnline,AFC East,division,
-NE,30000,Nov21,BetOnline,AFC East,division,
-BAL,-250,Nov21,BetOnline,AFC North,division,
-CLE,275,Nov21,BetOnline,AFC North,division,
-PIT,800,Nov21,BetOnline,AFC North,division,
-CIN,7500,Nov21,BetOnline,AFC North,division,
-JAX,-260,Nov21,BetOnline,AFC South,division,
-HOU,220,Nov21,BetOnline,AFC South,division,
-IND,1800,Nov21,BetOnline,AFC South,division,
-TEN,8000,Nov21,BetOnline,AFC South,division,
-KC,-3000,Nov21,BetOnline,AFC West,division,
-LAC,1800,Nov21,BetOnline,AFC West,division,
-DEN,2000,Nov21,BetOnline,AFC West,division,
-LV,2800,Nov21,BetOnline,AFC West,division,
-NO,-160,Nov21,BetOnline,NFC South,division,
-ATL,250,Nov21,BetOnline,NFC South,division,
-TB,400,Nov21,BetOnline,NFC South,division,
-CAR,25000,Nov21,BetOnline,NFC South,division,
-DET,-20000,Nov21,BetOnline,,make playoffs,Yes
-DET,2500,Nov21,BetOnline,,make playoffs,No
-GB,-400,Nov21,BetOnline,,make playoffs,No
-GB,300,Nov21,BetOnline,,make playoffs,Yes
-DAL,-5000,Nov21,BetOnline,,make playoffs,Yes
-DAL,1800,Nov21,BetOnline,,make playoffs,No
-WAS,-10000,Nov21,BetOnline,,make playoffs,No
-WAS,2000,Nov21,BetOnline,,make playoffs,Yes
-SF,-10000,Nov21,BetOnline,,make playoffs,Yes
-SF,2000,Nov21,BetOnline,,make playoffs,No
-MIA,-3000,Nov21,BetOnline,,make playoffs,Yes
-MIA,1400,Nov21,BetOnline,,make playoffs,No
-NYJ,-2000,Nov21,BetOnline,,make playoffs,No
-NYJ,1000,Nov21,BetOnline,,make playoffs,Yes
-ARI,-20000,Nov21,BetOnline,,make playoffs,No
-ARI,2500,Nov21,BetOnline,,make playoffs,Yes
-ATL,-260,Nov21,BetOnline,,make playoffs,No
-ATL,200,Nov21,BetOnline,,make playoffs,Yes
-BAL,-5000,Nov21,BetOnline,,make playoffs,Yes
-BAL,1800,Nov21,BetOnline,,make playoffs,No
-BUF,-190,Nov21,BetOnline,,make playoffs,No
-BUF,155,Nov21,BetOnline,,make playoffs,Yes
-CAR,-20000,Nov21,BetOnline,,make playoffs,No
-CAR,2500,Nov21,BetOnline,,make playoffs,Yes
-CHI,-10000,Nov21,BetOnline,,make playoffs,No
-CHI,2000,Nov21,BetOnline,,make playoffs,Yes
-CIN,-900,Nov21,BetOnline,,make playoffs,No
-CIN,550,Nov21,BetOnline,,make playoffs,Yes
-CLE,-450,Nov21,BetOnline,,make playoffs,Yes
-CLE,325,Nov21,BetOnline,,make playoffs,No
-DEN,-350,Nov21,BetOnline,,make playoffs,No
-DEN,275,Nov21,BetOnline,,make playoffs,Yes
-HOU,-190,Nov21,BetOnline,,make playoffs,Yes
-HOU,155,Nov21,BetOnline,,make playoffs,No
-IND,-260,Nov21,BetOnline,,make playoffs,No
-IND,200,Nov21,BetOnline,,make playoffs,Yes
-JAX,-1600,Nov21,BetOnline,,make playoffs,Yes
-JAX,800,Nov21,BetOnline,,make playoffs,No
-KC,-20000,Nov21,BetOnline,,make playoffs,Yes
-KC,2500,Nov21,BetOnline,,make playoffs,No
-LV,-5000,Nov21,BetOnline,,make playoffs,No
-LV,1800,Nov21,BetOnline,,make playoffs,Yes
-LAC,-600,Nov21,BetOnline,,make playoffs,No
-LAC,400,Nov21,BetOnline,,make playoffs,Yes
-LA,-600,Nov21,BetOnline,,make playoffs,No
-LA,400,Nov21,BetOnline,,make playoffs,Yes
-MIN,-220,Nov21,BetOnline,,make playoffs,Yes
-MIN,180,Nov21,BetOnline,,make playoffs,No
-NE,-20000,Nov21,BetOnline,,make playoffs,No
-NE,2500,Nov21,BetOnline,,make playoffs,Yes
-NO,-180,Nov21,BetOnline,,make playoffs,Yes
-NO,150,Nov21,BetOnline,,make playoffs,No
-NYG,-20000,Nov21,BetOnline,,make playoffs,No
-NYG,2500,Nov21,BetOnline,,make playoffs,Yes
-PHI,-20000,Nov21,BetOnline,,make playoffs,Yes
-PHI,2500,Nov21,BetOnline,,make playoffs,No
-PIT,-145,Nov21,BetOnline,,make playoffs,Yes
-PIT,115,Nov21,BetOnline,,make playoffs,No
-TB,-240,Nov21,BetOnline,,make playoffs,No
-TB,190,Nov21,BetOnline,,make playoffs,Yes
-TEN,-5000,Nov21,BetOnline,,make playoffs,No
-TEN,1800,Nov21,BetOnline,,make playoffs,Yes
-MIA,-400,Nov21,Bovada,AFC East,division,
-BUF,275,Nov21,Bovada,AFC East,division,
-NYJ,3500,Nov21,Bovada,AFC East,division,
-NE,50000,Nov21,Bovada,AFC East,division,
-JAX,-250,Nov21,Bovada,AFC South,division,
-HOU,210,Nov21,Bovada,AFC South,division,
-IND,1800,Nov21,Bovada,AFC South,division,
-TEN,8000,Nov21,Bovada,AFC South,division,
-PHI,-1100,Nov21,Bovada,NFC East,division,
-DAL,450,Nov21,Bovada,NFC East,division,
-WAS,25000,Nov21,Bovada,NFC East,division,
-NYG,30000,Nov21,Bovada,NFC East,division,
-DET,-3000,Nov21,Bovada,NFC North,division,
-MIN,750,Nov21,Bovada,NFC North,division,
-GB,4500,Nov21,Bovada,NFC North,division,
-CHI,50000,Nov21,Bovada,NFC North,division,
-NO,-160,Nov21,Bovada,NFC South,division,
-ATL,250,Nov21,Bovada,NFC South,division,
-TB,400,Nov21,Bovada,NFC South,division,
-CAR,25000,Nov21,Bovada,NFC South,division,
-SF,-900,Nov21,Bovada,NFC West,division,
-SEA,500,Nov21,Bovada,NFC West,division,
-LA,3300,Nov21,Bovada,NFC West,division,
-ARI,25000,Nov21,Bovada,NFC West,division,
-BAL,-250,Nov21,Bovada,AFC North,division,
-CLE,275,Nov21,Bovada,AFC North,division,
-PIT,800,Nov21,Bovada,AFC North,division,
-CIN,7500,Nov21,Bovada,AFC North,division,
+team,odds,date,site,division,conference,market,result
+CHI,35000,Nov22,bookmaker,NFC North,NFC,division,
+DET,-2650,Nov22,bookmaker,NFC North,NFC,division,
+GB,5300,Nov22,bookmaker,NFC North,NFC,division,
+MIN,915,Nov22,bookmaker,NFC North,NFC,division,
+DAL,562,Nov22,bookmaker,NFC East,NFC,division,
+NYG,18396,Nov22,bookmaker,NFC East,NFC,division,
+PHI,-1222,Nov22,bookmaker,NFC East,NFC,division,
+WAS,52956,Nov22,bookmaker,NFC East,NFC,division,
+ARI,50000,Nov22,bookmaker,NFC West,NFC,division,
+LA,4000,Nov22,bookmaker,NFC West,NFC,division,
+SF,-1350,Nov22,bookmaker,NFC West,NFC,division,
+SEA,700,Nov22,bookmaker,NFC West,NFC,division,
+BUF,310,Nov22,bookmaker,AFC East,AFC,division,
+MIA,-440,Nov22,bookmaker,AFC East,AFC,division,
+NE,100000,Nov22,bookmaker,AFC East,AFC,division,
+NYJ,4000,Nov22,bookmaker,AFC East,AFC,division,
+ATL,250,Nov22,bookmaker,NFC South,NFC,division,
+CAR,22500,Nov22,bookmaker,NFC South,NFC,division,
+NO,-150,Nov22,bookmaker,NFC South,NFC,division,
+TB,355,Nov22,bookmaker,NFC South,NFC,division,
+BAL,-255,Nov22,bookmaker,AFC North,AFC,division,
+CIN,8000,Nov22,bookmaker,AFC North,AFC,division,
+CLE,282,Nov22,bookmaker,AFC North,AFC,division,
+PIT,750,Nov22,bookmaker,AFC North,AFC,division,
+HOU,228,Nov22,bookmaker,AFC South,AFC,division,
+IND,1735,Nov22,bookmaker,AFC South,AFC,division,
+JAX,-276,Nov22,bookmaker,AFC South,AFC,division,
+TEN,10064,Nov22,bookmaker,AFC South,AFC,division,
+DEN,2000,Nov22,bookmaker,AFC West,AFC,division,
+KC,-2750,Nov22,bookmaker,AFC West,AFC,division,
+LV,3500,Nov22,bookmaker,AFC West,AFC,division,
+LAC,2500,Nov22,bookmaker,AFC West,AFC,division,
+ARI,125000,Nov22,bookmaker,NFC West,NFC,conference,
+ATL,8000,Nov22,bookmaker,NFC South,NFC,conference,
+CAR,175000,Nov22,bookmaker,NFC South,NFC,conference,
+CHI,67500,Nov22,bookmaker,NFC North,NFC,conference,
+DAL,445,Nov22,bookmaker,NFC East,NFC,conference,
+DET,484,Nov22,bookmaker,NFC North,NFC,conference,
+GB,12000,Nov22,bookmaker,NFC North,NFC,conference,
+LA,10500,Nov22,bookmaker,NFC West,NFC,conference,
+MIN,3950,Nov22,bookmaker,NFC North,NFC,conference,
+NO,3600,Nov22,bookmaker,NFC South,NFC,conference,
+NYG,100000,Nov22,bookmaker,NFC East,NFC,conference,
+PHI,192,Nov22,bookmaker,NFC East,NFC,conference,
+SF,190,Nov22,bookmaker,NFC West,NFC,conference,
+SEA,2750,Nov22,bookmaker,NFC West,NFC,conference,
+TB,11500,Nov22,bookmaker,NFC South,NFC,conference,
+WAS,42500,Nov22,bookmaker,NFC East,NFC,conference,
+BAL,327,Nov22,bookmaker,AFC North,AFC,conference,
+BUF,1027,Nov22,bookmaker,AFC East,AFC,conference,
+CIN,5709,Nov22,bookmaker,AFC North,AFC,conference,
+CLE,1913,Nov22,bookmaker,AFC North,AFC,conference,
+DEN,5709,Nov22,bookmaker,AFC West,AFC,conference,
+HOU,2012,Nov22,bookmaker,AFC South,AFC,conference,
+IND,9840,Nov22,bookmaker,AFC South,AFC,conference,
+JAX,712,Nov22,bookmaker,AFC South,AFC,conference,
+KC,207,Nov22,bookmaker,AFC West,AFC,conference,
+LV,15606,Nov22,bookmaker,AFC West,AFC,conference,
+LAC,3856,Nov22,bookmaker,AFC West,AFC,conference,
+MIA,432,Nov22,bookmaker,AFC East,AFC,conference,
+NE,90628,Nov22,bookmaker,AFC East,AFC,conference,
+NYJ,11520,Nov22,bookmaker,AFC East,AFC,conference,
+PIT,3322,Nov22,bookmaker,AFC North,AFC,conference,
+TEN,30207,Nov22,bookmaker,AFC South,AFC,conference,
+ARI,254547,Nov22,bookmaker,NFC West,NFC,super bowl,
+ATL,17795,Nov22,bookmaker,NFC South,NFC,super bowl,
+BAL,725,Nov22,bookmaker,AFC North,AFC,super bowl,
+BUF,2150,Nov22,bookmaker,AFC East,AFC,super bowl,
+CAR,356533,Nov22,bookmaker,NFC South,NFC,super bowl,
+CHI,137433,Nov22,bookmaker,NFC North,NFC,super bowl,
+CIN,10000,Nov22,bookmaker,AFC North,AFC,super bowl,
+CLE,4725,Nov22,bookmaker,AFC North,AFC,super bowl,
+DAL,1062,Nov22,bookmaker,NFC East,NFC,super bowl,
+DEN,12000,Nov22,bookmaker,AFC West,AFC,super bowl,
+DET,1087,Nov22,bookmaker,NFC North,NFC,super bowl,
+GB,25427,Nov22,bookmaker,NFC North,NFC,super bowl,
+HOU,4879,Nov22,bookmaker,AFC South,AFC,super bowl,
+IND,23391,Nov22,bookmaker,AFC South,AFC,super bowl,
+JAX,1814,Nov22,bookmaker,AFC South,AFC,super bowl,
+KC,450,Nov22,bookmaker,AFC West,AFC,super bowl,
+LV,30516,Nov22,bookmaker,AFC West,AFC,super bowl,
+LAC,8641,Nov22,bookmaker,AFC West,AFC,super bowl,
+LA,21865,Nov22,bookmaker,NFC West,NFC,super bowl,
+MIA,907,Nov22,bookmaker,AFC East,AFC,super bowl,
+MIN,8132,Nov22,bookmaker,NFC North,NFC,super bowl,
+NE,183285,Nov22,bookmaker,AFC East,AFC,super bowl,
+NO,7573,Nov22,bookmaker,NFC South,NFC,super bowl,
+NYG,30922,Nov22,bookmaker,NFC East,NFC,super bowl,
+NYJ,22883,Nov22,bookmaker,AFC East,AFC,super bowl,
+PHI,440,Nov22,bookmaker,NFC East,NFC,super bowl,
+PIT,7114,Nov22,bookmaker,AFC North,AFC,super bowl,
+SF,444,Nov22,bookmaker,NFC West,NFC,super bowl,
+SEA,5590,Nov22,bookmaker,NFC West,NFC,super bowl,
+TB,23391,Nov22,bookmaker,NFC South,NFC,super bowl,
+TEN,61055,Nov22,bookmaker,AFC South,AFC,super bowl,
+WAS,86518,Nov22,bookmaker,NFC East,NFC,super bowl,
+DET,-3000,Nov22,BetOnline,NFC North,,division,
+MIN,800,Nov22,BetOnline,NFC North,,division,
+GB,4000,Nov22,BetOnline,NFC North,,division,
+CHI,50000,Nov22,BetOnline,NFC North,,division,
+PHI,-1100,Nov22,BetOnline,NFC East,,division,
+DAL,450,Nov22,BetOnline,NFC East,,division,
+WAS,50000,Nov22,BetOnline,NFC East,,division,
+NYG,75000,Nov22,BetOnline,NFC East,,division,
+SF,-900,Nov22,BetOnline,NFC West,,division,
+SEA,500,Nov22,BetOnline,NFC West,,division,
+LA,3300,Nov22,BetOnline,NFC West,,division,
+ARI,25000,Nov22,BetOnline,NFC West,,division,
+MIA,-400,Nov22,BetOnline,AFC East,,division,
+BUF,275,Nov22,BetOnline,AFC East,,division,
+NYJ,3500,Nov22,BetOnline,AFC East,,division,
+NE,30000,Nov22,BetOnline,AFC East,,division,
+BAL,-250,Nov22,BetOnline,AFC North,,division,
+CLE,275,Nov22,BetOnline,AFC North,,division,
+PIT,800,Nov22,BetOnline,AFC North,,division,
+CIN,7500,Nov22,BetOnline,AFC North,,division,
+JAX,-260,Nov22,BetOnline,AFC South,,division,
+HOU,220,Nov22,BetOnline,AFC South,,division,
+IND,1800,Nov22,BetOnline,AFC South,,division,
+TEN,8000,Nov22,BetOnline,AFC South,,division,
+KC,-3000,Nov22,BetOnline,AFC West,,division,
+LAC,1800,Nov22,BetOnline,AFC West,,division,
+DEN,2000,Nov22,BetOnline,AFC West,,division,
+LV,2800,Nov22,BetOnline,AFC West,,division,
+NO,-160,Nov22,BetOnline,NFC South,,division,
+ATL,250,Nov22,BetOnline,NFC South,,division,
+TB,400,Nov22,BetOnline,NFC South,,division,
+CAR,25000,Nov22,BetOnline,NFC South,,division,
+DET,-20000,Nov22,BetOnline,,,make playoffs,Yes
+DET,2500,Nov22,BetOnline,,,make playoffs,No
+GB,-400,Nov22,BetOnline,,,make playoffs,No
+GB,300,Nov22,BetOnline,,,make playoffs,Yes
+DAL,-5000,Nov22,BetOnline,,,make playoffs,Yes
+DAL,1800,Nov22,BetOnline,,,make playoffs,No
+WAS,-10000,Nov22,BetOnline,,,make playoffs,No
+WAS,2000,Nov22,BetOnline,,,make playoffs,Yes
+SF,-10000,Nov22,BetOnline,,,make playoffs,Yes
+SF,2000,Nov22,BetOnline,,,make playoffs,No
+MIA,-3000,Nov22,BetOnline,,,make playoffs,Yes
+MIA,1400,Nov22,BetOnline,,,make playoffs,No
+NYJ,-2000,Nov22,BetOnline,,,make playoffs,No
+NYJ,1000,Nov22,BetOnline,,,make playoffs,Yes
+ARI,-20000,Nov22,BetOnline,,,make playoffs,No
+ARI,2500,Nov22,BetOnline,,,make playoffs,Yes
+ATL,-260,Nov22,BetOnline,,,make playoffs,No
+ATL,200,Nov22,BetOnline,,,make playoffs,Yes
+BAL,-5000,Nov22,BetOnline,,,make playoffs,Yes
+BAL,1800,Nov22,BetOnline,,,make playoffs,No
+BUF,-190,Nov22,BetOnline,,,make playoffs,No
+BUF,155,Nov22,BetOnline,,,make playoffs,Yes
+CAR,-20000,Nov22,BetOnline,,,make playoffs,No
+CAR,2500,Nov22,BetOnline,,,make playoffs,Yes
+CHI,-10000,Nov22,BetOnline,,,make playoffs,No
+CHI,2000,Nov22,BetOnline,,,make playoffs,Yes
+CIN,-900,Nov22,BetOnline,,,make playoffs,No
+CIN,550,Nov22,BetOnline,,,make playoffs,Yes
+CLE,-450,Nov22,BetOnline,,,make playoffs,Yes
+CLE,325,Nov22,BetOnline,,,make playoffs,No
+DEN,-350,Nov22,BetOnline,,,make playoffs,No
+DEN,275,Nov22,BetOnline,,,make playoffs,Yes
+HOU,-190,Nov22,BetOnline,,,make playoffs,Yes
+HOU,155,Nov22,BetOnline,,,make playoffs,No
+IND,-260,Nov22,BetOnline,,,make playoffs,No
+IND,200,Nov22,BetOnline,,,make playoffs,Yes
+JAX,-1600,Nov22,BetOnline,,,make playoffs,Yes
+JAX,800,Nov22,BetOnline,,,make playoffs,No
+KC,-20000,Nov22,BetOnline,,,make playoffs,Yes
+KC,2500,Nov22,BetOnline,,,make playoffs,No
+LV,-5000,Nov22,BetOnline,,,make playoffs,No
+LV,1800,Nov22,BetOnline,,,make playoffs,Yes
+LAC,-600,Nov22,BetOnline,,,make playoffs,No
+LAC,400,Nov22,BetOnline,,,make playoffs,Yes
+LA,-600,Nov22,BetOnline,,,make playoffs,No
+LA,400,Nov22,BetOnline,,,make playoffs,Yes
+MIN,-230,Nov22,BetOnline,,,make playoffs,Yes
+MIN,190,Nov22,BetOnline,,,make playoffs,No
+NE,-20000,Nov22,BetOnline,,,make playoffs,No
+NE,2500,Nov22,BetOnline,,,make playoffs,Yes
+NO,-180,Nov22,BetOnline,,,make playoffs,Yes
+NO,150,Nov22,BetOnline,,,make playoffs,No
+NYG,-20000,Nov22,BetOnline,,,make playoffs,No
+NYG,2500,Nov22,BetOnline,,,make playoffs,Yes
+PHI,-20000,Nov22,BetOnline,,,make playoffs,Yes
+PHI,2500,Nov22,BetOnline,,,make playoffs,No
+PIT,-145,Nov22,BetOnline,,,make playoffs,Yes
+PIT,115,Nov22,BetOnline,,,make playoffs,No
+TB,-240,Nov22,BetOnline,,,make playoffs,No
+TB,190,Nov22,BetOnline,,,make playoffs,Yes
+TEN,-5000,Nov22,BetOnline,,,make playoffs,No
+TEN,1800,Nov22,BetOnline,,,make playoffs,Yes
+KC,200,Nov22,BetOnline,AFC West,AFC,conference,
+BAL,350,Nov22,BetOnline,AFC North,AFC,conference,
+MIA,450,Nov22,BetOnline,AFC East,AFC,conference,
+JAX,800,Nov22,BetOnline,AFC South,AFC,conference,
+BUF,1100,Nov22,BetOnline,AFC East,AFC,conference,
+CLE,1600,Nov22,BetOnline,AFC North,AFC,conference,
+HOU,2500,Nov22,BetOnline,AFC South,AFC,conference,
+PIT,3300,Nov22,BetOnline,AFC North,AFC,conference,
+LAC,4000,Nov22,BetOnline,AFC West,AFC,conference,
+CIN,5000,Nov22,BetOnline,AFC North,AFC,conference,
+DEN,5000,Nov22,BetOnline,AFC West,AFC,conference,
+NYJ,8000,Nov22,BetOnline,AFC East,AFC,conference,
+IND,12500,Nov22,BetOnline,AFC South,AFC,conference,
+LV,15000,Nov22,BetOnline,AFC West,AFC,conference,
+TEN,25000,Nov22,BetOnline,AFC South,AFC,conference,
+NE,75000,Nov22,BetOnline,AFC East,AFC,conference,
+PHI,200,Nov22,BetOnline,NFC East,NFC,conference,
+SF,210,Nov22,BetOnline,NFC West,NFC,conference,
+DAL,500,Nov22,BetOnline,NFC East,NFC,conference,
+DET,500,Nov22,BetOnline,NFC North,NFC,conference,
+SEA,2000,Nov22,BetOnline,NFC West,NFC,conference,
+NO,2800,Nov22,BetOnline,NFC South,NFC,conference,
+MIN,3300,Nov22,BetOnline,NFC North,NFC,conference,
+GB,7500,Nov22,BetOnline,NFC North,NFC,conference,
+LA,8000,Nov22,BetOnline,NFC West,NFC,conference,
+TB,8000,Nov22,BetOnline,NFC South,NFC,conference,
+ATL,8000,Nov22,BetOnline,NFC South,NFC,conference,
+WAS,30000,Nov22,BetOnline,NFC East,NFC,conference,
+NYG,50000,Nov22,BetOnline,NFC East,NFC,conference,
+CHI,50000,Nov22,BetOnline,NFC North,NFC,conference,
+ARI,100000,Nov22,BetOnline,NFC West,NFC,conference,
+CAR,125000,Nov22,BetOnline,NFC South,NFC,conference,
+PHI,400,Nov22,BetOnline,NFC East,NFC,super bowl,
+SF,425,Nov22,BetOnline,NFC West,NFC,super bowl,
+KC,475,Nov22,BetOnline,AFC West,AFC,super bowl,
+BAL,800,Nov22,BetOnline,AFC North,AFC,super bowl,
+MIA,900,Nov22,BetOnline,AFC East,AFC,super bowl,
+DET,1100,Nov22,BetOnline,NFC North,NFC,super bowl,
+DAL,1200,Nov22,BetOnline,NFC East,NFC,super bowl,
+JAX,1600,Nov22,BetOnline,AFC South,AFC,super bowl,
+BUF,2500,Nov22,BetOnline,AFC East,AFC,super bowl,
+CLE,4500,Nov22,BetOnline,AFC North,AFC,super bowl,
+HOU,5000,Nov22,BetOnline,AFC South,AFC,super bowl,
+SEA,5000,Nov22,BetOnline,NFC West,NFC,super bowl,
+MIN,6600,Nov22,BetOnline,NFC North,NFC,super bowl,
+NO,6600,Nov22,BetOnline,NFC South,NFC,super bowl,
+PIT,7500,Nov22,BetOnline,AFC North,AFC,super bowl,
+LAC,8000,Nov22,BetOnline,AFC West,AFC,super bowl,
+DEN,10000,Nov22,BetOnline,AFC West,AFC,super bowl,
+CIN,12500,Nov22,BetOnline,AFC North,AFC,super bowl,
+GB,15000,Nov22,BetOnline,NFC North,NFC,super bowl,
+ATL,17500,Nov22,BetOnline,NFC South,NFC,super bowl,
+IND,20000,Nov22,BetOnline,AFC South,AFC,super bowl,
+LA,20000,Nov22,BetOnline,NFC West,NFC,super bowl,
+NYJ,20000,Nov22,BetOnline,AFC East,AFC,super bowl,
+TB,20000,Nov22,BetOnline,NFC South,NFC,super bowl,
+LV,30000,Nov22,BetOnline,AFC West,AFC,super bowl,
+TEN,50000,Nov22,BetOnline,AFC South,AFC,super bowl,
+CHI,100000,Nov22,BetOnline,NFC North,NFC,super bowl,
+WAS,100000,Nov22,BetOnline,NFC East,NFC,super bowl,
+NE,150000,Nov22,BetOnline,AFC East,AFC,super bowl,
+NYG,150000,Nov22,BetOnline,NFC East,NFC,super bowl,
+ARI,200000,Nov22,BetOnline,NFC West,NFC,super bowl,
+CAR,200000,Nov22,BetOnline,NFC South,NFC,super bowl,
+MIA,-400,Nov22,Bovada,AFC East,AFC,division,
+BUF,275,Nov22,Bovada,AFC East,AFC,division,
+NYJ,3500,Nov22,Bovada,AFC East,AFC,division,
+NE,50000,Nov22,Bovada,AFC East,AFC,division,
+JAX,-250,Nov22,Bovada,AFC South,AFC,division,
+HOU,210,Nov22,Bovada,AFC South,AFC,division,
+IND,1800,Nov22,Bovada,AFC South,AFC,division,
+TEN,8000,Nov22,Bovada,AFC South,AFC,division,
+PHI,-1100,Nov22,Bovada,NFC East,NFC,division,
+DAL,450,Nov22,Bovada,NFC East,NFC,division,
+WAS,25000,Nov22,Bovada,NFC East,NFC,division,
+NYG,30000,Nov22,Bovada,NFC East,NFC,division,
+DET,-3000,Nov22,Bovada,NFC North,NFC,division,
+MIN,750,Nov22,Bovada,NFC North,NFC,division,
+GB,4500,Nov22,Bovada,NFC North,NFC,division,
+CHI,50000,Nov22,Bovada,NFC North,NFC,division,
+NO,-160,Nov22,Bovada,NFC South,NFC,division,
+ATL,250,Nov22,Bovada,NFC South,NFC,division,
+TB,400,Nov22,Bovada,NFC South,NFC,division,
+CAR,25000,Nov22,Bovada,NFC South,NFC,division,
+SF,-900,Nov22,Bovada,NFC West,NFC,division,
+SEA,500,Nov22,Bovada,NFC West,NFC,division,
+LA,3300,Nov22,Bovada,NFC West,NFC,division,
+ARI,25000,Nov22,Bovada,NFC West,NFC,division,
+BAL,-250,Nov22,Bovada,AFC North,AFC,division,
+CLE,275,Nov22,Bovada,AFC North,AFC,division,
+PIT,800,Nov22,Bovada,AFC North,AFC,division,
+CIN,7500,Nov22,Bovada,AFC North,AFC,division,
+KC,200,Nov22,Bovada,AFC West,AFC,conference,
+BAL,325,Nov22,Bovada,AFC North,AFC,conference,
+MIA,400,Nov22,Bovada,AFC East,AFC,conference,
+JAX,850,Nov22,Bovada,AFC South,AFC,conference,
+BUF,1300,Nov22,Bovada,AFC East,AFC,conference,
+CLE,1800,Nov22,Bovada,AFC North,AFC,conference,
+HOU,2200,Nov22,Bovada,AFC South,AFC,conference,
+PIT,3500,Nov22,Bovada,AFC North,AFC,conference,
+LAC,4000,Nov22,Bovada,AFC West,AFC,conference,
+CIN,5000,Nov22,Bovada,AFC North,AFC,conference,
+DEN,5000,Nov22,Bovada,AFC West,AFC,conference,
+NYJ,8000,Nov22,Bovada,AFC East,AFC,conference,
+IND,15000,Nov22,Bovada,AFC South,AFC,conference,
+LV,17500,Nov22,Bovada,AFC West,AFC,conference,
+TEN,25000,Nov22,Bovada,AFC South,AFC,conference,
+NE,75000,Nov22,Bovada,AFC East,AFC,conference,
+SF,190,Nov22,Bovada,NFC West,NFC,conference,
+PHI,225,Nov22,Bovada,NFC East,NFC,conference,
+DAL,450,Nov22,Bovada,NFC East,NFC,conference,
+DET,450,Nov22,Bovada,NFC North,NFC,conference,
+SEA,2000,Nov22,Bovada,NFC West,NFC,conference,
+MIN,2800,Nov22,Bovada,NFC North,NFC,conference,
+NO,3000,Nov22,Bovada,NFC South,NFC,conference,
+ATL,8000,Nov22,Bovada,NFC South,NFC,conference,
+LA,8000,Nov22,Bovada,NFC West,NFC,conference,
+GB,8500,Nov22,Bovada,NFC North,NFC,conference,
+TB,8500,Nov22,Bovada,NFC South,NFC,conference,
+WAS,25000,Nov22,Bovada,NFC East,NFC,conference,
+CHI,50000,Nov22,Bovada,NFC North,NFC,conference,
+NYG,50000,Nov22,Bovada,NFC East,NFC,conference,
+ARI,75000,Nov22,Bovada,NFC West,NFC,conference,
+CAR,100000,Nov22,Bovada,NFC South,NFC,conference,
+PHI,450,Nov22,Bovada,NFC East,NFC,super bowl,
+SF,450,Nov22,Bovada,NFC West,NFC,super bowl,
+KC,475,Nov22,Bovada,AFC West,AFC,super bowl,
+BAL,750,Nov22,Bovada,AFC North,AFC,super bowl,
+DAL,950,Nov22,Bovada,NFC East,NFC,super bowl,
+MIA,950,Nov22,Bovada,AFC East,AFC,super bowl,
+DET,1000,Nov22,Bovada,NFC North,NFC,super bowl,
+JAX,1600,Nov22,Bovada,AFC South,AFC,super bowl,
+BUF,2200,Nov22,Bovada,AFC East,AFC,super bowl,
+CLE,4000,Nov22,Bovada,AFC North,AFC,super bowl,
+HOU,4500,Nov22,Bovada,AFC South,AFC,super bowl,
+SEA,4500,Nov22,Bovada,NFC West,NFC,super bowl,
+MIN,5500,Nov22,Bovada,NFC North,NFC,super bowl,
+NO,7000,Nov22,Bovada,NFC South,NFC,super bowl,
+PIT,7000,Nov22,Bovada,AFC North,AFC,super bowl,
+LAC,8000,Nov22,Bovada,AFC West,AFC,super bowl,
+CIN,10000,Nov22,Bovada,AFC North,AFC,super bowl,
+DEN,10000,Nov22,Bovada,AFC West,AFC,super bowl,
+NYJ,15000,Nov22,Bovada,AFC East,AFC,super bowl,
+ATL,17500,Nov22,Bovada,NFC South,NFC,super bowl,
+GB,17500,Nov22,Bovada,NFC North,NFC,super bowl,
+LA,20000,Nov22,Bovada,NFC West,NFC,super bowl,
+TB,20000,Nov22,Bovada,NFC South,NFC,super bowl,
+IND,25000,Nov22,Bovada,AFC South,AFC,super bowl,
+LV,25000,Nov22,Bovada,AFC West,AFC,super bowl,
+TEN,50000,Nov22,Bovada,AFC South,AFC,super bowl,
+WAS,50000,Nov22,Bovada,NFC East,NFC,super bowl,
+CHI,100000,Nov22,Bovada,NFC North,NFC,super bowl,
+ARI,150000,Nov22,Bovada,NFC West,NFC,super bowl,
+NE,150000,Nov22,Bovada,AFC East,AFC,super bowl,
+NYG,150000,Nov22,Bovada,NFC East,NFC,super bowl,
+CAR,200000,Nov22,Bovada,NFC South,NFC,super bowl,

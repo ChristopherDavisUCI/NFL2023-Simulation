@@ -243,7 +243,7 @@ if sim_button or ("rc" in st.session_state):
 
     #streak_charts = make_streak_charts(streak_dict)
 
-    stage_charts = make_stage_charts(stage_dict)
+    stage_charts, champ_data = make_stage_charts(stage_dict)
 
     superbowl_chart = make_superbowl_chart(stage_dict)
 
@@ -257,7 +257,7 @@ if sim_button or ("rc" in st.session_state):
     st.session_state['stage_charts'] = stage_charts
     st.session_state['superbowl_chart'] = superbowl_chart
     st.session_state['best_chart'] = best_chart
-    st.session_state['raw_data'] = compare_market(raw_data)
+    st.session_state['raw_data'] = compare_market(raw_data, champ_data)
 
 
 def make_ranking(df,col):
