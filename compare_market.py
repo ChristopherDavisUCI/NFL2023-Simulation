@@ -93,6 +93,6 @@ def compare_market(raw_data, champ_data):
     market["prob"] = market.apply(lambda row: get_prob(row, prob_dct), axis=1)
     market["market"] = market.apply(name_market, axis=1)
     market["kelly"] = market.apply(lambda row: kelly(row["prob"], row["odds"]), axis=1)
-    rec = market[market["kelly"] > 0].sort_values("kelly", ascending=False)
+    rec = market[market["kelly"] > 0].sort_values("odds", ascending=False)
     rec["odds"] = rec["odds"].astype(str).map(display_plus)
     return rec[["team", "market", "odds", "prob", "site", "kelly"]].reset_index(drop=True)
