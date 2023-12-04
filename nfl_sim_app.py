@@ -153,7 +153,6 @@ sim_button = button_cols1.button("Run simulations")
 
 with button_cols2:
     time_holder = st.empty()
-    last_holder = st.empty()
 
 # "rc" stands for "repetitions changed"
 # does it really make sense to run in that case?
@@ -233,9 +232,8 @@ if sim_button or ("rc" in st.session_state):
 
     end = time.time()
     
-    time_holder.write(f"{reps} simulations of the 2023 NFL season took {end - start:.1f} seconds.")
-
-    last_holder.write(f"Last updated game: Week {last_played['week']}: {last_played['away_team']} {int(last_played['away_score'])} - {last_played['home_team']} {int(last_played['home_score'])}")
+    time_holder.markdown(f'''{reps} simulations of the 2023 NFL season took {end - start:.1f} seconds.  
+    Last updated game: Week {last_played['week']}: {last_played['away_team']} {int(last_played['away_score'])} - {last_played['home_team']} {int(last_played['home_score'])}''')
 
 
     playoff_charts, raw_data = make_playoff_charts(playoff_dict)
