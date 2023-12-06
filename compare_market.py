@@ -77,6 +77,7 @@ def lose_sb(champ_data):
 # Stage, Team, Proportion, Odds
 def compare_market(raw_data, champ_data):
     market = pd.read_csv("data/markets.csv")
+    market = market[market["odds"].notna()].copy()
     market.rename({"market": "raw_market"}, axis=1, inplace=True)
     ser_div = win_div(raw_data)
     ser_mp = make_playoffs(raw_data)
