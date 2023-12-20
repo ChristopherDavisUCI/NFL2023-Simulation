@@ -54,7 +54,10 @@ def make_playoff_charts(total_dict):
 
         source_list.append(source.copy())
 
-        ordering = sorted(conf_teams[conf],key=lambda t: sum([playoff_dicts[i][t] for i in playoff_dicts.keys()]),reverse=True)
+        # Sort first on probability of making playoffs
+        # then on 1 seed, then on 1 seed + 2 seed probability, etc
+        
+        ordering = sorted(conf_teams[conf],key=lambda t: (sum([playoff_dicts[i][t] for i in playoff_dicts.keys()]), playoff_dicts[1][t], playoff_dicts[1][t]+playoff_dicts[2][t]), reverse=True)
         ordering_seeds = list(range(7,0,-1))
 
 
