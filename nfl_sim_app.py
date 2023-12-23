@@ -375,18 +375,21 @@ info_choice = st.radio(
     radio_dict.keys(),key="opt_radio",format_func=lambda k: radio_dict[k])
 
 if info_choice == "Matchups":
-    st.subheader("Probabilities of playoff matchups")
-    fs = st.session_state["full_standings"]
-    n = 50 # how many matchups to display
-    for conf in ["AFC", "NFC"]:
-        rows = process_standings(fs[conf][:n])
-        m = min(n, len(rows))
-        st.write(f"{m} most likely {conf} matchups:")
-        output_str = ''''''
-        for match, prop in rows:
-            output_str += f'''Probability {prop:.3f}: {match}  
+    try:
+        st.subheader("Probabilities of playoff matchups")
+        fs = st.session_state["full_standings"]
+        n = 50 # how many matchups to display
+        for conf in ["AFC", "NFC"]:
+            rows = process_standings(fs[conf][:n])
+            m = min(n, len(rows))
+            st.write(f"{m} most likely {conf} matchups:")
+            output_str = ''''''
+            for match, prop in rows:
+                output_str += f'''Probability {prop:.3f}: {match}  
 '''
         st.markdown(output_str)
+    except KeyError:
+        st.write('No data yet. Press the "Run simulations" button above.')
 elif info_choice == "Rankings":
     st.subheader("Power rankings 1-32 based on current values")
     st.dataframe(df_rankings[["Overall"]].astype(int).sort_values("Overall"),height=1000)
