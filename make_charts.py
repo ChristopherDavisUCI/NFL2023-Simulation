@@ -47,8 +47,6 @@ def make_playoff_charts(total_dict):
             source.loc[source["Team"] == a, "Make_playoffs"] = b.Proportion.sum()
             source.loc[source["Team"] == a,"Equal_better"] = b.Proportion.cumsum()
 
-        #source["Equal_better"] += source["Proportion"]
-
         for c in odds_dict.keys():
             source[odds_dict[c]] = source[c].map(prob_to_odds)
 
@@ -56,7 +54,6 @@ def make_playoff_charts(total_dict):
 
         # Sort first on probability of making playoffs
         # then on 1 seed, then on 1 seed + 2 seed probability, etc
-        
         ordering = sorted(conf_teams[conf],key=lambda t: (sum([playoff_dicts[i][t] for i in playoff_dicts.keys()]), playoff_dicts[1][t], playoff_dicts[1][t]+playoff_dicts[2][t]), reverse=True)
         ordering_seeds = list(range(7,0,-1))
 

@@ -79,6 +79,7 @@ def simulate_conference(pr, conf_seeds, stage_of_elim):
 
     return list(round_seeds.values())[0], stage_of_elim
 
+
 def simulate_playoffs(pr, seeds):
     seeds = seeds.copy()
     # Are the seeds missing ranks?

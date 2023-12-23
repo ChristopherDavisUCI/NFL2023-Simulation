@@ -1,5 +1,6 @@
 import streamlit as st
 from numpy.random import default_rng
+from collections import Counter
 import pandas as pd
 import altair as alt
 alt.data_transformers.disable_max_rows()
@@ -198,6 +199,11 @@ if sim_button or ("rc" in st.session_state):
         for i in range(1,5):
             rank_dict1[t][i] = 0
 
+    # How often do different playoff scenarios occur?
+    # A dictionary whose values are lists of tuples
+    # tuples like ("SF", "PHI", ...)
+    playoff_full = {"AFC": [], "NFC": []}
+
     start = time.time()
 
     for i in range(reps):
@@ -208,7 +214,8 @@ if sim_button or ("rc" in st.session_state):
 
         p = stand.playoffs
         stage_of_elim = simulate_playoffs(pr, p)
-        for conf in ["AFC","NFC"]:
+        for conf in ["AFC", "NFC"]:
+            playoff_full[conf].append(tuple(p[conf]))
             for j,t in enumerate(p[conf]):
                 playoff_dict[conf][j+1][t] += 1
         for t in teams:
@@ -261,6 +268,32 @@ if sim_button or ("rc" in st.session_state):
     st.session_state['superbowl_chart'] = superbowl_chart
     st.session_state['best_chart'] = best_chart
     st.session_state['raw_data'] = compare_market(raw_data, champ_data)
+    st.session_state['full_standings'] = playoff_full
+
+
+# Input is a tuple like ("SF", "PHI", ...)
+# Matchups are 2-7, 3-6, 4-5
+# In slots 1-6, 2-5, 3-4
+def stand_to_matchups(tup):
+    output_str = f"1: {tup[0]}"
+    for i in range(2,5):
+        j = 9-i #opponent
+        output_str += f". {i}-{j}: {tup[i-1]}-{tup[j-1]}"
+    output_str += "."
+    return output_str
+
+
+# Input should be a list of tuples, the tuples like
+# ("SF", "PHI", ...)
+def process_standings(list_of_tuples):
+    tot = len(list_of_tuples)
+    count = Counter(list_of_tuples)
+    props = [(k,v/tot) for k,v in count.items()]
+    sorted_props = sorted(props, key=lambda x: x[1], reverse=True)
+    matchup_props = []
+    for tup,prop in sorted_props:
+        matchup_props.append((stand_to_matchups(tup), prop))
+    return matchup_props
 
 
 def make_ranking(df,col):
@@ -328,6 +361,7 @@ else:
 df_rankings = pd.DataFrame({col:make_ranking(df_pr,col) for col in df_pr.columns})
     
 radio_dict = {
+    "Matchups": "Probabilities of playoff standings 1-7.",
     "Division": "Probabilities for different division ranks.",
     "Rankings": "See the power rankings 1-32 based on the current values.",
     "Sample": "The sample images and explanations.",
@@ -340,7 +374,20 @@ info_choice = st.radio(
     'Options for more information',
     radio_dict.keys(),key="opt_radio",format_func=lambda k: radio_dict[k])
 
-if info_choice == "Rankings":
+if info_choice == "Matchups":
+    st.subheader("Probabilities of playoff matchups")
+    fs = st.session_state["full_standings"]
+    n = 50 # how many matchups to display
+    for conf in ["AFC", "NFC"]:
+        rows = process_standings(fs[conf][:n])
+        m = min(n, len(rows))
+        st.write(f"{m} most likely {conf} matchups:")
+        output_str = ''''''
+        for match, prop in rows:
+            output_str += f'''Probability {prop:.3f}: {match}  
+'''
+        st.markdown(output_str)
+elif info_choice == "Rankings":
     st.subheader("Power rankings 1-32 based on current values")
     st.dataframe(df_rankings[["Overall"]].astype(int).sort_values("Overall"),height=1000)
 elif info_choice == "Contact":
