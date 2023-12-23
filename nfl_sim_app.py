@@ -387,7 +387,7 @@ if info_choice == "Matchups":
             for match, prop in rows:
                 output_str += f'''Probability {prop:.3f}: {match}  
 '''
-        st.markdown(output_str)
+            st.markdown(output_str)
     except KeyError:
         st.write('No data yet. Press the "Run simulations" button above.')
 elif info_choice == "Rankings":
