@@ -9,7 +9,7 @@ pr_custom = pd.Series()
 teams = sorted(list(set(df["home_team"])))
 rng = default_rng()
 
-def simulate_reg_season(pr = pr_default):
+def simulate_reg_season(pr = pr_default, df_stored=df_stored):
     try:
         df["pr_home_Off"] = df.home_team.map(lambda s: pr_custom[s+"_Off"])
         df["pr_home_Def"] = df.home_team.map(lambda s: pr_custom[s+"_Def"])

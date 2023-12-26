@@ -56,6 +56,11 @@ max_reps = 2000
 
 reps = st.sidebar.number_input('Number of simulations to run:',value=200, min_value = 1, max_value = max_reps, help = f'''The maximum allowed value is {max_reps}.''',on_change=reps_changed)
 
+def make_radio(row):
+    home = row['home_team']
+    away = row['away_team']
+    label = f"Week {row['week']}: {away} @ {home}"
+    return st.radio(label=label, options=["Blank", away, home, "Tie"])
 
 with st.sidebar:
 
@@ -100,7 +105,11 @@ with st.sidebar:
             # Replace the uploaded ratings with the cleaned version
             pr_upload = pr_upload2
 
-
+    with st.expander("Fix specific game outcomes:"):
+        forced_outcomes = {}
+        df_unplayed = df_schedule[df_schedule["home_score"].isna()]
+        for ind, row in df_unplayed.iterrows():
+            forced_outcomes[ind] = make_radio(row)
 
 pr = {"mean_score": float(pr_default["mean_score"])}
 
@@ -162,6 +171,19 @@ if sim_button or ("rc" in st.session_state):
         del st.session_state["rc"]
     except:
         pass
+    df_forced = df_schedule.copy()
+    for k,v in forced_outcomes.items():
+        if v == "Blank":
+            continue
+        row = df_forced.loc[k]
+        if v == row["away_team"]:
+            df_forced.loc[k, ["away_score", "home_score"]] = [24, 17]
+        elif v == row["home_team"]:
+            df_forced.loc[k, ["away_score", "home_score"]] = [17, 24]
+        elif v == "Tie":
+            df_forced.loc[k, ["away_score", "home_score"]] = [17, 17]
+        else:
+            raise ValueError("The specified value could not be found.")
     st.header("Simulation results")
     placeholder0 = st.empty()
     placeholder1 = st.empty()
@@ -207,7 +229,7 @@ if sim_button or ("rc" in st.session_state):
     start = time.time()
 
     for i in range(reps):
-        df = simulate_reg_season(pr)
+        df = simulate_reg_season(pr, df_forced)
         #streaks = get_streaks(df)
         #last_list.append(get_last(df))
         stand = Standings(df)
