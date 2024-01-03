@@ -146,9 +146,7 @@ df_pr = pd.DataFrame({"Overall": {t:pr_complete[t+"_Off"] + pr_complete[t+"_Def"
         )
 
 
-st.markdown('''**January 2nd 2024**: There seems to be an issue with the app incorrectly applying tie breakers in the NFC East.  Looking into it!
-            
-Based on your power ratings, we use Python to run many simulations of the 2023 NFL season, and then estimate answers to questions like:
+st.markdown('''Based on your power ratings, we use Python to run many simulations of the 2023 NFL season, and then estimate answers to questions like:
 * How likely is Dallas to get the no. 1 seed?  To win its division? To make the playoffs?
 * How likely are the Steelers to win exactly 11 games?  To win 11 or more games?
 * How likely are the Patriots to finish 3rd in the AFC East?''')
