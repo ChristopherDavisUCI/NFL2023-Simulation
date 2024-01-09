@@ -28,6 +28,8 @@ st.set_page_config(layout="wide")
 
 st.title('2023 NFL Season Simulator')
 
+st.markdown("Thanks for visiting!  Now that the regular season is done, I don't think this app has much value, but here is a [playoff simulator](https://playoffs-23.streamlit.app/) to try.")
+
 pr_default = pd.read_csv("data/pr.csv", index_col="Team").squeeze()
 div_series = pd.read_csv("data/divisions.csv", index_col=0).squeeze()
 df_schedule = pd.read_csv("schedules/schedule23.csv")
